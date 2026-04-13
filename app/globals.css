@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+:root {
+  --bp-bg: #FAFAF7;
+  --bp-navy: #2B4C7E;
+  --bp-sage: #6B8F71;
+  --bp-coral: #E8734A;
+  --bp-cream: #F5EFE6;
+  --bp-navy-light: #EEF2F8;
+  --bp-text: #1A1A2E;
+  --bp-muted: #6B7280;
+}
