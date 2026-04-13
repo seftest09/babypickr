@@ -1,0 +1,10 @@
+export const AFFILIATE_CONFIG = {
+    ENABLED: false,
+    ASSOCIATE_TAG: "PENDING",
+    PLACEHOLDER_TAG: "babypickr-test-20",
+  }
+  
+  export const getTag = () =>
+    AFFILIATE_CONFIG.ENABLED
+      ? AFFILIATE_CONFIG.ASSOCIATE_TAG
+      : AFFILIATE_CONFIG.PLACEHOLDER_TAG
