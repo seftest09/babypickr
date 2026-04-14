@@ -9,6 +9,7 @@ import { FilterBar, type FilterGroup } from "@/components/FilterBar";
 import { ProductCard } from "@/components/ProductCard";
 import { ResultsGrid } from "@/components/ResultsGrid";
 import type { CategoryId } from "@/lib/categories";
+import { CATEGORY_HREFS } from "@/lib/categories";
 import type { CarSeat, CarSeatFilterState } from "@/types/product";
 import { carSeats as allCarSeats } from "@/data/car-seats";
 import { getTag } from "@/config/affiliate";
@@ -115,18 +116,16 @@ export default function CarSeatsPage() {
   }
 
   function handleCategorySelect(id: CategoryId) {
-    if (id === "strollers") {
-      router.push("/");
-      return;
-    }
-    if (id === "car-seats") {
-      router.push("/car-seats");
+    const href = CATEGORY_HREFS[id];
+    if (href) {
+      router.push(href);
       return;
     }
     setCategory(id);
   }
 
   function isCategoryActiveForNav(id: CategoryId): boolean {
+    if (id === "baby-monitors") return false;
     return id === "car-seats" ? category === "car-seats" : category === id;
   }
 

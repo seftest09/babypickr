@@ -56,3 +56,33 @@ export interface CarSeatFilterState {
   vehicleFit: "all" | "compact" | "any"
   priority: "all" | "lightweight" | "safety" | "value"
 }
+
+export type VideoQuality = "audio-only" | "720p" | "1080p" | "2K" | "4K"
+export type BatteryLife = "no-battery" | "under-8hrs" | "8-12hrs" | "12hrs+"
+export type Range = "short" | "medium" | "long"
+
+export interface BabyMonitor {
+  id: string
+  name: string
+  brand: string
+  price: number
+  videoQuality: VideoQuality
+  wifiRequired: boolean
+  hasAppControl: boolean
+  batteryLife: BatteryLife
+  range: Range
+  budgetTier: BudgetTier
+  bestFor: string[]
+  worstFor: string[]
+  topFeature: string
+  asin: string | null
+  rating: number
+  reviewCount: number
+}
+
+export interface MonitorFilterState {
+  budget: "all" | "budget" | "mid" | "premium"
+  connectivity: "all" | "wifi" | "non-wifi"
+  videoQuality: "all" | "audio-only" | "standard" | "hd"
+  priority: "all" | "safety" | "value" | "battery"
+}

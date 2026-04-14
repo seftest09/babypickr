@@ -8,3 +8,10 @@ export const CATEGORIES = [
 ] as const;
 
 export type CategoryId = (typeof CATEGORIES)[number]["id"];
+
+/** App Router paths for category tabs that have a listing page */
+export const CATEGORY_HREFS: Partial<Record<CategoryId, string>> = {
+  strollers: "/",
+  "car-seats": "/car-seats",
+  "baby-monitors": "/monitors",
+};
