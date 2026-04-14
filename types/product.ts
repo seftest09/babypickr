@@ -26,3 +26,33 @@ export interface FilterState {
   parentHeight: "all" | "short" | "average" | "tall"
   priority: "all" | "portability" | "value" | "carSeat"
 }
+
+export type SeatType = "infant" | "convertible" | "all-in-one"
+
+export interface CarSeat {
+  id: string
+  name: string
+  brand: string
+  price: number
+  weightLbs: number
+  seatType: SeatType
+  weightLimitLbs: number
+  vehicleFit: "compact" | "any"
+  apartmentFriendly: boolean
+  tallParentFriendly: boolean
+  latchCompatible: boolean
+  budgetTier: BudgetTier
+  bestFor: string[]
+  worstFor: string[]
+  topFeature: string
+  asin: string | null
+  rating: number
+  reviewCount: number
+}
+
+export interface CarSeatFilterState {
+  budget: "all" | "budget" | "mid" | "premium"
+  seatType: "all" | "infant" | "convertible" | "all-in-one"
+  vehicleFit: "all" | "compact" | "any"
+  priority: "all" | "lightweight" | "safety" | "value"
+}

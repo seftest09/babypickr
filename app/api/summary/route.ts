@@ -3,27 +3,78 @@ import { NextRequest } from "next/server";
 
 const client = new Anthropic();
 
+function titleCaseKey(key: string): string {
+  return key
+    .replace(/([A-Z])/g, " $1")
+    .replace(/_/g, " ")
+    .trim()
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function formatRecordLines(obj: Record<string, unknown>, skipKeys: Set<string>): string {
+  const lines: string[] = [];
+  for (const [key, raw] of Object.entries(obj)) {
+    if (skipKeys.has(key)) continue;
+    if (raw === undefined || raw === null) continue;
+    const label = titleCaseKey(key);
+    if (Array.isArray(raw)) {
+      lines.push(`- ${label}: ${raw.join(", ")}`);
+    } else if (typeof raw === "object") {
+      lines.push(`- ${label}: ${JSON.stringify(raw)}`);
+    } else {
+      lines.push(`- ${label}: ${String(raw)}`);
+    }
+  }
+  return lines.join("\n");
+}
+
+const PRODUCT_PROMPT_SKIP = new Set(["asin"]);
+
 export async function POST(req: NextRequest) {
-  const { stroller, filters } = await req.json();
+  const body = (await req.json()) as {
+    product?: unknown;
+    filters?: unknown;
+    category?: unknown;
+  };
 
-  const prompt = `A parent is shopping for a stroller with these needs:
-- Budget tier: ${filters.budget === "all" ? "flexible" : filters.budget}
-- Living space: ${filters.space === "all" ? "not specified" : filters.space}
-- Parent height: ${filters.parentHeight === "all" ? "average" : filters.parentHeight}
-- Priority: ${filters.priority === "all" ? "balanced" : filters.priority}
+  const { product, filters, category } = body ?? {};
 
-The stroller they're considering:
-- Name: ${stroller.name}
-- Price: $${stroller.price}
-- Weight: ${stroller.weightLbs} lbs
-- Fold: ${stroller.foldType} fold
-- Apartment friendly: ${stroller.apartmentFriendly}
-- Tall parent friendly: ${stroller.tallParentFriendly}
-- Top feature: ${stroller.topFeature}
+  if (!product || typeof product !== "object" || Array.isArray(product)) {
+    return new Response(JSON.stringify({ error: "Missing or invalid product" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  if (!category || typeof category !== "string" || !category.trim()) {
+    return new Response(JSON.stringify({ error: "Missing or invalid category" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const filterRecord =
+    filters && typeof filters === "object" && !Array.isArray(filters)
+      ? (filters as Record<string, unknown>)
+      : {};
+
+  const productRecord = product as Record<string, unknown>;
+
+  const filterBlock = formatRecordLines(filterRecord, new Set());
+  const productBlock = formatRecordLines(productRecord, PRODUCT_PROMPT_SKIP);
+
+  const categoryPhrase = category.trim();
+
+  const prompt = `A parent is comparing ${categoryPhrase} options for their baby.
+
+Their current filter preferences:
+${filterBlock || "- (none specified; treat as flexible)"}
+
+Details of the product they are considering:
+${productBlock}
 
 Write exactly 2 sentences maximum. Be blunt.
-Start with the biggest reason it fits or doesn't fit
-their situation.`;
+Start with the biggest reason this product does or does not fit their situation for this ${categoryPhrase} purchase. Use the word "product" when referring to the item (not the category name as a stand-in for the item).`;
 
   const stream = await client.messages.stream({
     model: "claude-sonnet-4-5",

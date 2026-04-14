@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useProductAiSummary } from "@/hooks/useProductAiSummary";
 import { useRouter } from "next/navigation";
 import { CategoryNav } from "@/components/CategoryNav";
 import { CategoryPageLayout } from "@/components/CategoryPageLayout";
@@ -8,124 +9,135 @@ import { FilterBar, type FilterGroup } from "@/components/FilterBar";
 import { ProductCard } from "@/components/ProductCard";
 import { ResultsGrid } from "@/components/ResultsGrid";
 import type { CategoryId } from "@/lib/categories";
-import { Stroller, FilterState } from "@/types/product";
-import { strollers as allStrollers } from "@/data/strollers";
+import type { CarSeat, CarSeatFilterState } from "@/types/product";
+import { carSeats as allCarSeats } from "@/data/car-seats";
 import { getTag } from "@/config/affiliate";
 import { buildAmazonLink } from "@/lib/affiliate";
-import { filterStrollers } from "@/lib/filters/strollers";
-import { useProductAiSummary } from "@/hooks/useProductAiSummary";
+import { filterCarSeats } from "@/lib/filters/carSeats";
 
 const BUDGET_OPTIONS = [
   { label: "All", value: "all" },
-  { label: "Under $300", value: "budget" },
-  { label: "$300-700", value: "mid" },
-  { label: "$700+", value: "premium" },
+  { label: "Under $200", value: "budget" },
+  { label: "$200-400", value: "mid" },
+  { label: "$400+", value: "premium" },
 ] as const;
 
-const SPACE_OPTIONS = [
+const SEAT_TYPE_OPTIONS = [
   { label: "All", value: "all" },
-  { label: "Apartment", value: "apartment" },
-  { label: "House", value: "house" },
+  { label: "Infant", value: "infant" },
+  { label: "Convertible", value: "convertible" },
+  { label: "All-in-One", value: "all-in-one" },
 ] as const;
 
-const HEIGHT_OPTIONS = [
+const VEHICLE_FIT_OPTIONS = [
   { label: "All", value: "all" },
-  { label: "Under 5'6\"", value: "short" },
-  { label: "5'6\"-6'", value: "average" },
-  { label: "Over 6'", value: "tall" },
+  { label: "Compact Car", value: "compact" },
+  { label: "SUV or Minivan", value: "any" },
 ] as const;
 
 const PRIORITY_OPTIONS = [
   { label: "All", value: "all" },
-  { label: "Most Portable", value: "portability" },
+  { label: "Lightest", value: "lightweight" },
+  { label: "Top Rated", value: "safety" },
   { label: "Best Value", value: "value" },
-  { label: "Car Seat Compatible", value: "carSeat" },
 ] as const;
 
-const STROLLER_FILTER_GROUPS: readonly FilterGroup[] = [
+const CAR_SEAT_FILTER_GROUPS: readonly FilterGroup[] = [
   {
     key: "budget",
     label: "Budget",
     options: BUDGET_OPTIONS,
     optionWrapClassName: "flex flex-wrap gap-1.5 sm:gap-2",
   },
-  { key: "space", label: "Living space", options: SPACE_OPTIONS },
-  { key: "parentHeight", label: "Parent height", options: HEIGHT_OPTIONS },
+  { key: "seatType", label: "Seat type", options: SEAT_TYPE_OPTIONS },
+  { key: "vehicleFit", label: "Vehicle Size", options: VEHICLE_FIT_OPTIONS },
   { key: "priority", label: "Priority", options: PRIORITY_OPTIONS },
 ];
 
-function getStrollerAmazonHref(stroller: Stroller): string {
-  const raw = stroller.asin?.trim() ?? "";
+const CAR_SEAT_FILTER_GRID =
+  "grid grid-cols-2 gap-x-4 gap-y-5 sm:gap-x-5 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)]";
+
+function getCarSeatAmazonHref(seat: CarSeat): string {
+  const raw = seat.asin?.trim() ?? "";
   if (raw && raw.toLowerCase() !== "unavailable") {
     return buildAmazonLink(raw);
   }
-  return `https://www.amazon.com/s?k=${encodeURIComponent(stroller.name)}&tag=${getTag()}`;
+  return `https://www.amazon.com/s?k=${encodeURIComponent(seat.name)}&tag=${getTag()}`;
 }
 
-export default function Home() {
+function seatTypeLabel(type: CarSeat["seatType"]): string {
+  if (type === "all-in-one") return "All-in-One";
+  return type.charAt(0).toUpperCase() + type.slice(1);
+}
+
+function seatTypeBadgeClass(type: CarSeat["seatType"]): string {
+  if (type === "infant") return "bg-blue-100 text-blue-800";
+  if (type === "convertible") return "bg-purple-100 text-purple-800";
+  return "bg-teal-100 text-teal-800";
+}
+
+export default function CarSeatsPage() {
   const router = useRouter();
-  const [filters, setFilters] = useState<FilterState>({
+  const [filters, setFilters] = useState<CarSeatFilterState>({
     budget: "all",
-    space: "all",
-    parentHeight: "all",
+    seatType: "all",
+    vehicleFit: "all",
     priority: "all",
   });
+  const [category, setCategory] = useState<CategoryId>("car-seats");
 
-  const [category, setCategory] = useState<CategoryId>("strollers");
+  const results = useMemo(() => filterCarSeats(allCarSeats, filters), [filters]);
 
-  const { summaries, loadingSummaries, requestSummary } = useProductAiSummary(filters, "stroller");
-
-  const results = useMemo(() => filterStrollers(allStrollers, filters), [filters]);
+  const { summaries, loadingSummaries, requestSummary } = useProductAiSummary(filters, "car seat");
 
   const hasActiveFilter =
     filters.budget !== "all" ||
-    filters.space !== "all" ||
-    filters.parentHeight !== "all" ||
+    filters.seatType !== "all" ||
+    filters.vehicleFit !== "all" ||
     filters.priority !== "all";
 
   const filterValues = useMemo(
     () => ({
       budget: filters.budget,
-      space: filters.space,
-      parentHeight: filters.parentHeight,
+      seatType: filters.seatType,
+      vehicleFit: filters.vehicleFit,
       priority: filters.priority,
     }),
     [filters],
   );
 
   function resetFilters() {
-    setFilters({ budget: "all", space: "all", parentHeight: "all", priority: "all" });
+    setFilters({ budget: "all", seatType: "all", vehicleFit: "all", priority: "all" });
   }
 
-  function handleFilterChange(field: keyof FilterState, value: string) {
-    setFilters((prev) => ({ ...prev, [field]: value }));
+  function handleFilterBarChange(key: string, value: string) {
+    setFilters((prev) => ({ ...prev, [key]: value } as CarSeatFilterState));
   }
 
   function handleCategorySelect(id: CategoryId) {
-    if (id === "car-seats") {
-      router.push("/car-seats");
+    if (id === "strollers") {
+      router.push("/");
       return;
     }
-    if (id === "strollers") {
-      setCategory("strollers");
+    if (id === "car-seats") {
+      router.push("/car-seats");
       return;
     }
     setCategory(id);
   }
 
   function isCategoryActiveForNav(id: CategoryId): boolean {
-    if (id === "car-seats") return false;
-    if (id === "strollers") return category === "strollers";
-    return category === id;
+    return id === "car-seats" ? category === "car-seats" : category === id;
   }
 
   const filterBar =
-    category === "strollers" ? (
+    category === "car-seats" ? (
       <FilterBar
         subtitle="Answer 4 quick questions to find your match"
-        filterGroups={STROLLER_FILTER_GROUPS}
+        filterGroups={CAR_SEAT_FILTER_GROUPS}
         values={filterValues}
-        onChange={(key, value) => handleFilterChange(key as keyof FilterState, value)}
+        gridClassName={CAR_SEAT_FILTER_GRID}
+        onChange={handleFilterBarChange}
       />
     ) : null;
 
@@ -135,11 +147,11 @@ export default function Home() {
         <div className="min-w-0 shrink-0">
           <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Results</p>
           <h2 className="mt-1 text-2xl font-semibold tracking-tight text-[#1A1A2E]">
-            {results.length === 1 ? "Showing 1 stroller" : `Showing ${results.length} strollers`}
+            {results.length === 1 ? "Showing 1 car seat" : `Showing ${results.length} car seats`}
           </h2>
         </div>
         <p className="max-w-md shrink-0 text-sm leading-relaxed text-gray-500">
-          Refined picks that respect your space, height, and what matters most day to day.
+          Refined picks matched to your budget, seat type, and vehicle size.
         </p>
       </div>
     </div>
@@ -154,7 +166,7 @@ export default function Home() {
       }
       filterBar={filterBar}
     >
-      {category !== "strollers" ? (
+      {category !== "car-seats" ? (
         <div className="flex flex-col items-center px-4 py-16 sm:py-24">
           <div
             className="mb-6 flex h-36 w-full max-w-sm items-center justify-center rounded-3xl border border-[#2B4C7E]/20 bg-gradient-to-br from-[#EEF2F8] to-white text-[#6B8F71]/40 shadow-inner"
@@ -164,7 +176,7 @@ export default function Home() {
           </div>
           <p className="text-center text-2xl font-semibold tracking-tight text-gray-700">Coming soon</p>
           <p className="mt-3 max-w-md text-center text-sm leading-relaxed text-gray-500">
-            We&apos;re expanding BabyPickr beyond strollers. Pick another tab or switch back to Strollers to
+            We&apos;re expanding BabyPickr beyond car seats. Pick another tab or switch back to Car Seats to
             explore picks today.
           </p>
         </div>
@@ -172,32 +184,50 @@ export default function Home() {
         <ResultsGrid
           results={results}
           resultsHeader={resultsHeader}
-          emptyMessage="No strollers match your filters"
+          emptyMessage="No car seats match your filters"
           onResetFilters={resetFilters}
-          renderCard={(stroller) => (
+          renderCard={(seat) => (
             <ProductCard
-              product={stroller}
-              amazonHref={getStrollerAmazonHref(stroller)}
+              product={seat}
+              amazonHref={getCarSeatAmazonHref(seat)}
               hasActiveFilter={hasActiveFilter}
-              summary={summaries[stroller.id]}
-              isLoadingSummary={Boolean(loadingSummaries[stroller.id])}
-              onRequestSummary={() => void requestSummary(stroller)}
+              summary={summaries[seat.id]}
+              isLoadingSummary={Boolean(loadingSummaries[seat.id])}
+              onRequestSummary={() => void requestSummary(seat)}
+              afterStars={
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs font-semibold ring-1 ring-black/5 ${seatTypeBadgeClass(seat.seatType)}`}
+                  >
+                    {seatTypeLabel(seat.seatType)}
+                  </span>
+                  <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600 ring-1 ring-gray-200/70">
+                    Up to {seat.weightLimitLbs} lbs
+                  </span>
+                </div>
+              }
               afterTopFeature={
                 <>
                   <div className="mt-4 flex flex-wrap gap-2">
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600 ring-1 ring-gray-200/70">
-                      {stroller.weightLbs} lbs
+                      {seat.weightLbs} lbs
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600 ring-1 ring-gray-200/70">
-                      {stroller.foldType.replace("-", " ")} fold
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-semibold ring-1 ${
+                        seat.latchCompatible
+                          ? "bg-[#EEF7EF] text-[#2D5A30] ring-[#6B8F71]/30"
+                          : "bg-gray-100 text-gray-500 ring-gray-200/70"
+                      }`}
+                    >
+                      LATCH
                     </span>
                   </div>
 
-                  {stroller.bestFor?.length > 0 && (
+                  {seat.bestFor?.length > 0 && (
                     <div className="mt-5">
                       <p className="text-xs font-medium text-gray-500">Best for:</p>
                       <div className="mt-1 flex flex-wrap gap-1">
-                        {stroller.bestFor.map((tag) => (
+                        {seat.bestFor.map((tag) => (
                           <span
                             key={tag}
                             className="rounded-full bg-[#EEF7EF] px-2 py-0.5 text-xs font-medium text-[#2D5A30] ring-1 ring-[#6B8F71]/30"
@@ -209,11 +239,11 @@ export default function Home() {
                     </div>
                   )}
 
-                  {stroller.worstFor?.length > 0 && (
+                  {seat.worstFor?.length > 0 && (
                     <div className="mt-4">
                       <p className="text-xs font-medium text-gray-500">Watch out:</p>
                       <div className="mt-1 flex flex-wrap gap-1">
-                        {stroller.worstFor.map((tag) => (
+                        {seat.worstFor.slice(0, 2).map((tag) => (
                           <span
                             key={tag}
                             className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800 ring-1 ring-red-200"
