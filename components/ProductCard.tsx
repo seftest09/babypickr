@@ -78,9 +78,9 @@ export function ProductCard({
   const hasSummary = Boolean(summary);
 
   return (
-    <article className="group flex min-h-0 min-w-0 h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm ring-1 ring-[#2B4C7E]/10 transition duration-300 ease-out hover:-translate-y-1 hover:border-[#6B8F71]/40 hover:shadow-lg hover:shadow-[#2B4C7E]/10">
+    <article className="group flex min-h-0 min-w-0 h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm ring-1 ring-[#C4567E]/10 transition duration-300 ease-out hover:-translate-y-1 hover:border-[#9B6BA8]/40 hover:shadow-lg hover:shadow-[#C4567E]/10">
       <div
-        className="h-1.5 w-full bg-gradient-to-r from-[#2B4C7E] via-[#6B8F71] to-[#2B4C7E]"
+        className="h-1.5 w-full bg-gradient-to-r from-[#C4567E] via-[#9B6BA8] to-[#C4567E]"
         aria-hidden
       />
       <div className="flex min-h-0 min-w-0 flex-1 flex-col px-6 pb-2 pt-5">
@@ -90,15 +90,15 @@ export function ProductCard({
         <h3 className="mt-2 text-lg font-semibold leading-snug tracking-tight text-gray-950">
           {product.name}
         </h3>
-        <p className="mt-3 text-2xl font-semibold tracking-tight text-[#2B4C7E]">
+        <p className="mt-3 text-2xl font-semibold tracking-tight text-[#C4567E]">
           {formatPrice(product.price)}
         </p>
         <StarLine product={product} />
         {afterStars}
 
         <div className="mt-5">
-          <span className="inline-flex max-w-full items-start gap-1.5 rounded-full border border-[#2B4C7E]/30 bg-[#EEF2F8] px-3 py-1.5 text-xs font-medium leading-snug text-[#2B4C7E]">
-            <span aria-hidden className="mt-0.5 shrink-0 text-[#2B4C7E]">
+          <span className="inline-flex max-w-full items-start gap-1.5 rounded-full border border-[#C4567E]/30 bg-[#FDE8F2] px-3 py-1.5 text-xs font-medium leading-snug text-[#C4567E]">
+            <span aria-hidden className="mt-0.5 shrink-0 text-[#C4567E]">
               ✦
             </span>
             <span className="min-w-0">{product.topFeature}</span>
@@ -108,19 +108,19 @@ export function ProductCard({
         {afterTopFeature}
       </div>
 
-      <div className="mt-auto border-t border-[#E8734A]/20 bg-[#FDF5F0] px-6 py-4">
+      <div className="mt-auto border-t border-[#F5A623]/25 bg-[#FDE8F2] px-6 py-4">
         {hasActiveFilter &&
           (!hasSummary ? (
             <button
               type="button"
               onClick={() => void onRequestSummary()}
               disabled={isLoadingSummary}
-              className="mb-2 flex w-full items-center justify-center gap-1.5 rounded-lg border border-[#2B4C7E]/30 px-3 py-1.5 text-xs font-medium text-[#2B4C7E] transition hover:bg-[#EEF2F8] disabled:cursor-not-allowed disabled:opacity-60"
+              className="mb-2 flex w-full items-center justify-center gap-1.5 rounded-lg border border-[#C4567E]/30 px-3 py-1.5 text-xs font-medium text-[#C4567E] transition hover:bg-[#FDE8F2] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isLoadingSummary ? "Thinking..." : "✨ Why does this fit me?"}
             </button>
           ) : (
-            <p className="mb-2 mt-2 border-l-2 border-[#2B4C7E]/30 pl-3 text-xs leading-relaxed text-gray-600 italic">
+            <p className="mb-2 mt-2 border-l-2 border-[#C4567E]/30 pl-3 text-xs leading-relaxed text-gray-600 italic">
               {summary}
             </p>
           ))}
@@ -128,7 +128,7 @@ export function ProductCard({
           href={amazonHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex w-full min-w-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#E8734A] to-[#C85A30] py-3 text-sm font-semibold text-white shadow-md shadow-[#E8734A]/30 transition hover:from-[#D4663C] hover:to-[#B84D25] hover:shadow-lg"
+          className="flex w-full min-w-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#A83060] to-[#8B2450] py-3 text-sm font-semibold text-white shadow-md shadow-[#A83060]/30 transition hover:from-[#C4567E] hover:to-[#A83060] hover:shadow-lg"
         >
           View on Amazon →
         </a>

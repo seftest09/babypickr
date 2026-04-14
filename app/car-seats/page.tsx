@@ -56,7 +56,7 @@ const CAR_SEAT_FILTER_GROUPS: readonly FilterGroup[] = [
 ];
 
 const CAR_SEAT_FILTER_GRID =
-  "grid grid-cols-2 gap-x-4 gap-y-5 sm:gap-x-5 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)]";
+  "grid grid-cols-2 gap-x-8 gap-y-6 sm:gap-x-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)]";
 
 function getCarSeatAmazonHref(seat: CarSeat): string {
   const raw = seat.asin?.trim() ?? "";
@@ -125,7 +125,7 @@ export default function CarSeatsPage() {
   }
 
   function isCategoryActiveForNav(id: CategoryId): boolean {
-    if (id === "baby-monitors") return false;
+    if (id === "baby-monitors" || id === "cribs" || id === "high-chairs") return false;
     return id === "car-seats" ? category === "car-seats" : category === id;
   }
 
@@ -144,8 +144,8 @@ export default function CarSeatsPage() {
     <div className="flex flex-col gap-4 border-b border-gray-200 pb-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
         <div className="min-w-0 shrink-0">
-          <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Results</p>
-          <h2 className="mt-1 text-2xl font-semibold tracking-tight text-[#1A1A2E]">
+          <p className="text-xs font-semibold uppercase tracking-wider text-[#8B5E72]">Results</p>
+          <h2 className="mt-1 text-2xl font-semibold tracking-tight text-[#3D1C2E]">
             {results.length === 1 ? "Showing 1 car seat" : `Showing ${results.length} car seats`}
           </h2>
         </div>
@@ -168,10 +168,10 @@ export default function CarSeatsPage() {
       {category !== "car-seats" ? (
         <div className="flex flex-col items-center px-4 py-16 sm:py-24">
           <div
-            className="mb-6 flex h-36 w-full max-w-sm items-center justify-center rounded-3xl border border-[#2B4C7E]/20 bg-gradient-to-br from-[#EEF2F8] to-white text-[#6B8F71]/40 shadow-inner"
+            className="mb-6 flex h-36 w-full max-w-sm items-center justify-center rounded-3xl border border-[#C4567E]/20 bg-gradient-to-br from-[#FDE8F2] to-white text-[#9B6BA8]/40 shadow-inner"
             aria-hidden
           >
-            <span className="text-5xl font-semibold tracking-tight text-[#2B4C7E]/80">Soon</span>
+            <span className="text-5xl font-semibold tracking-tight text-[#C4567E]/80">Soon</span>
           </div>
           <p className="text-center text-2xl font-semibold tracking-tight text-gray-700">Coming soon</p>
           <p className="mt-3 max-w-md text-center text-sm leading-relaxed text-gray-500">
@@ -214,7 +214,7 @@ export default function CarSeatsPage() {
                     <span
                       className={`rounded-full px-3 py-1 text-xs font-semibold ring-1 ${
                         seat.latchCompatible
-                          ? "bg-[#EEF7EF] text-[#2D5A30] ring-[#6B8F71]/30"
+                          ? "bg-[#F0E8F8] text-[#6B4A8B] ring-[#9B6BA8]/30"
                           : "bg-gray-100 text-gray-500 ring-gray-200/70"
                       }`}
                     >
@@ -229,7 +229,7 @@ export default function CarSeatsPage() {
                         {seat.bestFor.map((tag) => (
                           <span
                             key={tag}
-                            className="rounded-full bg-[#EEF7EF] px-2 py-0.5 text-xs font-medium text-[#2D5A30] ring-1 ring-[#6B8F71]/30"
+                            className="rounded-full bg-[#F0E8F8] px-2 py-0.5 text-xs font-medium text-[#6B4A8B] ring-1 ring-[#9B6BA8]/30"
                           >
                             {tag}
                           </span>

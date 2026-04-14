@@ -40,7 +40,7 @@ export function ResultsGrid<T>({
           {onResetFilters && (
             <button
               type="button"
-              className="mt-8 rounded-xl bg-gradient-to-r from-[#2B4C7E] to-[#1e3a5c] px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-[#2B4C7E]/30 transition hover:from-[#244066] hover:to-[#1a3352]"
+              className="mt-8 rounded-xl bg-gradient-to-r from-[#C4567E] to-[#9B6BA8] px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-[#C4567E]/30 transition hover:from-[#b04a6f] hover:to-[#8a5a96]"
               onClick={onResetFilters}
             >
               Reset filters

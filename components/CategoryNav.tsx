@@ -11,7 +11,7 @@ export type CategoryNavProps = {
 export function CategoryNav({ isActiveFor, onSelect }: CategoryNavProps) {
   return (
     <div
-      className="mt-6 flex w-full max-w-[1200px] flex-wrap items-center justify-center gap-2 sm:gap-2.5"
+      className="mt-6 flex w-full max-w-[1400px] flex-wrap items-center justify-center gap-2 sm:gap-2.5"
       role="tablist"
       aria-label="Product category"
     >
@@ -25,8 +25,8 @@ export function CategoryNav({ isActiveFor, onSelect }: CategoryNavProps) {
             aria-selected={isActive}
             className={`rounded-full border px-3 py-2 text-xs font-semibold transition-all duration-200 sm:px-4 sm:text-sm ${
               isActive
-                ? "border-[#2B4C7E] bg-[#2B4C7E] text-white shadow-md shadow-[#2B4C7E]/25"
-                : "border-gray-200 bg-white text-gray-600 shadow-sm hover:border-[#2B4C7E]/40 hover:text-gray-900"
+                ? "border-[#C4567E] bg-[#C4567E] text-white shadow-md shadow-[#C4567E]/25"
+                : "border-gray-200 bg-white text-gray-600 shadow-sm hover:border-[#C4567E]/40 hover:text-gray-900"
             }`}
             onClick={() => onSelect(cat.id)}
           >

@@ -14,4 +14,6 @@ export const CATEGORY_HREFS: Partial<Record<CategoryId, string>> = {
   strollers: "/",
   "car-seats": "/car-seats",
   "baby-monitors": "/monitors",
+  cribs: "/cribs",
+  "high-chairs": "/high-chairs",
 };

@@ -86,3 +86,58 @@ export interface MonitorFilterState {
   videoQuality: "all" | "audio-only" | "standard" | "hd"
   priority: "all" | "safety" | "value" | "battery"
 }
+
+export type MaterialType = "solid-wood" | "engineered-wood" | "metal"
+export type AssemblyDifficulty = "easy" | "moderate" | "hard"
+export type ChairType = "full-size" | "compact" | "booster" | "hook-on"
+
+export interface Crib {
+  id: string
+  name: string
+  brand: string
+  price: number
+  convertible: boolean
+  materialType: MaterialType
+  assemblyDifficulty: AssemblyDifficulty
+  apartmentFriendly: boolean
+  budgetTier: BudgetTier
+  bestFor: string[]
+  worstFor: string[]
+  topFeature: string
+  asin: string | null
+  rating: number
+  reviewCount: number
+}
+
+export interface CribFilterState {
+  budget: "all" | "budget" | "mid" | "premium"
+  convertible: "all" | "yes" | "no"
+  material: "all" | "solid-wood" | "engineered-wood" | "metal"
+  priority: "all" | "value" | "top-rated" | "compact"
+}
+
+export interface HighChair {
+  id: string
+  name: string
+  brand: string
+  price: number
+  chairType: ChairType
+  reclines: boolean
+  foldable: boolean
+  easyToClean: boolean
+  apartmentFriendly: boolean
+  budgetTier: BudgetTier
+  bestFor: string[]
+  worstFor: string[]
+  topFeature: string
+  asin: string | null
+  rating: number
+  reviewCount: number
+}
+
+export interface HighChairFilterState {
+  budget: "all" | "budget" | "mid" | "premium"
+  chairType: "all" | "full-size" | "compact" | "booster" | "hook-on"
+  space: "all" | "apartment" | "house"
+  priority: "all" | "easiest-clean" | "value" | "top-rated"
+}

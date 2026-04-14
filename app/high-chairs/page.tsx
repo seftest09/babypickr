@@ -10,124 +10,111 @@ import { ProductCard } from "@/components/ProductCard";
 import { ResultsGrid } from "@/components/ResultsGrid";
 import type { CategoryId } from "@/lib/categories";
 import { CATEGORY_HREFS } from "@/lib/categories";
-import type { BabyMonitor, MonitorFilterState, VideoQuality } from "@/types/product";
-import { monitors as allMonitors } from "@/data/monitors";
+import type { ChairType, HighChair, HighChairFilterState } from "@/types/product";
+import { highChairs as allHighChairs } from "@/data/high-chairs";
 import { getTag } from "@/config/affiliate";
 import { buildAmazonLink } from "@/lib/affiliate";
-import { filterMonitors } from "@/lib/filters/monitors";
+import { filterHighChairs } from "@/lib/filters/highChairs";
 
 const BUDGET_OPTIONS = [
   { label: "All", value: "all" },
-  { label: "Under $150", value: "budget" },
-  { label: "$150-300", value: "mid" },
-  { label: "$300+", value: "premium" },
+  { label: "Under $100", value: "budget" },
+  { label: "$100-200", value: "mid" },
+  { label: "$200+", value: "premium" },
 ] as const;
 
-const CONNECTIVITY_OPTIONS = [
+const CHAIR_TYPE_OPTIONS = [
   { label: "All", value: "all" },
-  { label: "WiFi", value: "wifi" },
-  { label: "No WiFi Needed", value: "non-wifi" },
+  { label: "Full Size", value: "full-size" },
+  { label: "Compact", value: "compact" },
+  { label: "Booster", value: "booster" },
+  { label: "Hook-On", value: "hook-on" },
 ] as const;
 
-const VIDEO_QUALITY_OPTIONS = [
+const SPACE_OPTIONS = [
   { label: "All", value: "all" },
-  { label: "Audio Only", value: "audio-only" },
-  { label: "Standard", value: "standard" },
-  { label: "HD", value: "hd" },
+  { label: "Apartment", value: "apartment" },
+  { label: "House", value: "house" },
 ] as const;
 
 const PRIORITY_OPTIONS = [
   { label: "All", value: "all" },
-  { label: "Top Safety", value: "safety" },
+  { label: "Easiest to Clean", value: "easiest-clean" },
   { label: "Best Value", value: "value" },
-  { label: "Long Battery", value: "battery" },
+  { label: "Top Rated", value: "top-rated" },
 ] as const;
 
-const MONITOR_FILTER_GROUPS: readonly FilterGroup[] = [
+const HIGH_CHAIR_FILTER_GROUPS: readonly FilterGroup[] = [
   {
     key: "budget",
     label: "Budget",
     options: BUDGET_OPTIONS,
     optionWrapClassName: "flex flex-wrap gap-1.5 sm:gap-2",
   },
-  { key: "connectivity", label: "Connectivity", options: CONNECTIVITY_OPTIONS },
-  { key: "videoQuality", label: "Video Quality", options: VIDEO_QUALITY_OPTIONS },
+  { key: "chairType", label: "Chair Type", options: CHAIR_TYPE_OPTIONS },
+  { key: "space", label: "Space", options: SPACE_OPTIONS },
   { key: "priority", label: "Priority", options: PRIORITY_OPTIONS },
 ];
 
-const MONITOR_FILTER_GRID =
+const HIGH_CHAIR_FILTER_GRID =
   "grid grid-cols-2 gap-x-8 gap-y-6 sm:gap-x-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)]";
 
-function getMonitorAmazonHref(monitor: BabyMonitor): string {
-  const raw = monitor.asin?.trim() ?? "";
+function getHighChairAmazonHref(chair: HighChair): string {
+  const raw = chair.asin?.trim() ?? "";
   if (raw && raw.toLowerCase() !== "unavailable") {
     return buildAmazonLink(raw);
   }
-  return `https://www.amazon.com/s?k=${encodeURIComponent(monitor.name)}&tag=${getTag()}`;
+  return `https://www.amazon.com/s?k=${encodeURIComponent(chair.name)}&tag=${getTag()}`;
 }
 
-function videoQualityLabel(q: VideoQuality): string {
-  if (q === "audio-only") return "Audio only";
-  if (q === "720p") return "720p";
-  if (q === "1080p") return "1080p";
-  if (q === "2K") return "2K";
-  return "4K";
+function chairTypeLabel(t: ChairType): string {
+  if (t === "full-size") return "Full size";
+  if (t === "compact") return "Compact";
+  if (t === "booster") return "Booster";
+  return "Hook-on";
 }
 
-function rangeLabel(r: BabyMonitor["range"]): string {
-  if (r === "short") return "Shorter range";
-  if (r === "medium") return "Medium range";
-  return "Long range";
-}
-
-function batteryLabel(b: BabyMonitor["batteryLife"]): string {
-  if (b === "no-battery") return "Plug-in / AC";
-  if (b === "under-8hrs") return "Under 8 hrs portable";
-  if (b === "8-12hrs") return "8–12 hrs portable";
-  return "12+ hrs portable";
-}
-
-export default function MonitorsPage() {
+export default function HighChairsPage() {
   const router = useRouter();
-  const [filters, setFilters] = useState<MonitorFilterState>({
+  const [filters, setFilters] = useState<HighChairFilterState>({
     budget: "all",
-    connectivity: "all",
-    videoQuality: "all",
+    chairType: "all",
+    space: "all",
     priority: "all",
   });
-  const [category, setCategory] = useState<CategoryId>("baby-monitors");
+  const [category, setCategory] = useState<CategoryId>("high-chairs");
 
-  const results = useMemo(() => filterMonitors(allMonitors, filters), [filters]);
+  const results = useMemo(() => filterHighChairs(allHighChairs, filters), [filters]);
 
-  const { summaries, loadingSummaries, requestSummary } = useProductAiSummary(filters, "baby monitor");
+  const { summaries, loadingSummaries, requestSummary } = useProductAiSummary(filters, "high chair");
 
   const hasActiveFilter =
     filters.budget !== "all" ||
-    filters.connectivity !== "all" ||
-    filters.videoQuality !== "all" ||
+    filters.chairType !== "all" ||
+    filters.space !== "all" ||
     filters.priority !== "all";
 
   const filterValues = useMemo(
     () => ({
       budget: filters.budget,
-      connectivity: filters.connectivity,
-      videoQuality: filters.videoQuality,
+      chairType: filters.chairType,
+      space: filters.space,
       priority: filters.priority,
     }),
     [filters],
   );
 
   function resetFilters() {
-    setFilters({ budget: "all", connectivity: "all", videoQuality: "all", priority: "all" });
+    setFilters({ budget: "all", chairType: "all", space: "all", priority: "all" });
   }
 
   function handleFilterBarChange(key: string, value: string) {
-    setFilters((prev) => ({ ...prev, [key]: value } as MonitorFilterState));
+    setFilters((prev) => ({ ...prev, [key]: value } as HighChairFilterState));
   }
 
   function handleCategorySelect(id: CategoryId) {
-    if (id === "baby-monitors") {
-      setCategory("baby-monitors");
+    if (id === "high-chairs") {
+      setCategory("high-chairs");
       return;
     }
     const href = CATEGORY_HREFS[id];
@@ -139,17 +126,16 @@ export default function MonitorsPage() {
   }
 
   function isCategoryActiveForNav(id: CategoryId): boolean {
-    if (id === "cribs" || id === "high-chairs") return false;
-    return id === "baby-monitors" ? category === "baby-monitors" : category === id;
+    return id === "high-chairs" ? category === "high-chairs" : category === id;
   }
 
   const filterBar =
-    category === "baby-monitors" ? (
+    category === "high-chairs" ? (
       <FilterBar
         subtitle="Answer 4 quick questions to find your match"
-        filterGroups={MONITOR_FILTER_GROUPS}
+        filterGroups={HIGH_CHAIR_FILTER_GROUPS}
         values={filterValues}
-        gridClassName={MONITOR_FILTER_GRID}
+        gridClassName={HIGH_CHAIR_FILTER_GRID}
         onChange={handleFilterBarChange}
       />
     ) : null;
@@ -160,11 +146,12 @@ export default function MonitorsPage() {
         <div className="min-w-0 shrink-0">
           <p className="text-xs font-semibold uppercase tracking-wider text-[#8B5E72]">Results</p>
           <h2 className="mt-1 text-2xl font-semibold tracking-tight text-[#3D1C2E]">
-            {results.length === 1 ? "Showing 1 baby monitor" : `Showing ${results.length} baby monitors`}
+            {results.length === 1 ? "Showing 1 high chair" : `Showing ${results.length} high chairs`}
           </h2>
         </div>
         <p className="max-w-md shrink-0 text-sm leading-relaxed text-gray-500">
-          Matched to your home setup and monitoring needs
+          Find the right high chair for your family. Matched to your home and feeding needs — filter by budget,
+          type, and your space.
         </p>
       </div>
     </div>
@@ -179,7 +166,7 @@ export default function MonitorsPage() {
       }
       filterBar={filterBar}
     >
-      {category !== "baby-monitors" ? (
+      {category !== "high-chairs" ? (
         <div className="flex flex-col items-center px-4 py-16 sm:py-24">
           <div
             className="mb-6 flex h-36 w-full max-w-sm items-center justify-center rounded-3xl border border-[#C4567E]/20 bg-gradient-to-br from-[#FDE8F2] to-white text-[#9B6BA8]/40 shadow-inner"
@@ -189,61 +176,61 @@ export default function MonitorsPage() {
           </div>
           <p className="text-center text-2xl font-semibold tracking-tight text-gray-700">Coming soon</p>
           <p className="mt-3 max-w-md text-center text-sm leading-relaxed text-gray-500">
-            We&apos;re expanding BabyPickr beyond baby monitors. Pick another tab or switch back to Baby
-            Monitors to explore picks today.
+            We&apos;re expanding BabyPickr beyond high chairs. Pick another tab or switch back to High Chairs
+            to explore picks today.
           </p>
         </div>
       ) : (
         <ResultsGrid
           results={results}
           resultsHeader={resultsHeader}
-          emptyMessage="No baby monitors match your filters"
+          emptyMessage="No high chairs match your filters"
           onResetFilters={resetFilters}
-          renderCard={(monitor) => (
+          renderCard={(chair) => (
             <ProductCard
-              product={monitor}
-              amazonHref={getMonitorAmazonHref(monitor)}
+              product={chair}
+              amazonHref={getHighChairAmazonHref(chair)}
               hasActiveFilter={hasActiveFilter}
-              summary={summaries[monitor.id]}
-              isLoadingSummary={Boolean(loadingSummaries[monitor.id])}
-              onRequestSummary={() => void requestSummary(monitor)}
+              summary={summaries[chair.id]}
+              isLoadingSummary={Boolean(loadingSummaries[chair.id])}
+              onRequestSummary={() => void requestSummary(chair)}
               afterStars={
                 <div className="mt-4 flex flex-wrap gap-2">
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-800 ring-1 ring-black/5">
-                    {videoQualityLabel(monitor.videoQuality)}
+                  <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-900 ring-1 ring-black/5">
+                    {chairTypeLabel(chair.chairType)}
                   </span>
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-semibold ring-1 ring-black/5 ${
-                      monitor.wifiRequired
-                        ? "bg-sky-100 text-sky-900"
-                        : "bg-emerald-100 text-emerald-900"
-                    }`}
-                  >
-                    {monitor.wifiRequired ? "WiFi" : "No WiFi"}
-                  </span>
-                  {monitor.hasAppControl && (
+                  {chair.reclines && (
+                    <span className="rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-900 ring-1 ring-black/5">
+                      Reclines
+                    </span>
+                  )}
+                  {chair.foldable && (
                     <span className="rounded-full bg-violet-100 px-3 py-1 text-xs font-semibold text-violet-900 ring-1 ring-black/5">
-                      App
+                      Folds
+                    </span>
+                  )}
+                  {chair.easyToClean && (
+                    <span className="rounded-full bg-[#F0E8F8] px-3 py-1 text-xs font-semibold text-[#6B4A8B] ring-1 ring-[#9B6BA8]/30">
+                      Easy clean
                     </span>
                   )}
                 </div>
               }
               afterTopFeature={
                 <>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600 ring-1 ring-gray-200/70">
-                      {batteryLabel(monitor.batteryLife)}
-                    </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600 ring-1 ring-gray-200/70">
-                      {rangeLabel(monitor.range)}
-                    </span>
-                  </div>
+                  {chair.apartmentFriendly && (
+                    <div className="mt-4">
+                      <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600 ring-1 ring-gray-200/70">
+                        Apartment friendly
+                      </span>
+                    </div>
+                  )}
 
-                  {monitor.bestFor?.length > 0 && (
+                  {chair.bestFor?.length > 0 && (
                     <div className="mt-5">
                       <p className="text-xs font-medium text-gray-500">Best for:</p>
                       <div className="mt-1 flex flex-wrap gap-1">
-                        {monitor.bestFor.map((tag) => (
+                        {chair.bestFor.map((tag) => (
                           <span
                             key={tag}
                             className="rounded-full bg-[#F0E8F8] px-2 py-0.5 text-xs font-medium text-[#6B4A8B] ring-1 ring-[#9B6BA8]/30"
@@ -255,11 +242,11 @@ export default function MonitorsPage() {
                     </div>
                   )}
 
-                  {monitor.worstFor?.length > 0 && (
+                  {chair.worstFor?.length > 0 && (
                     <div className="mt-4">
                       <p className="text-xs font-medium text-gray-500">Watch out:</p>
                       <div className="mt-1 flex flex-wrap gap-1">
-                        {monitor.worstFor.slice(0, 2).map((tag) => (
+                        {chair.worstFor.slice(0, 2).map((tag) => (
                           <span
                             key={tag}
                             className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800 ring-1 ring-red-200"
