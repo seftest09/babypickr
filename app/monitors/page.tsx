@@ -171,8 +171,8 @@ export default function MonitorsPage() {
 
   return (
     <CategoryPageLayout
-      title="Find the right baby monitor for your home"
-      tagline="Filter by budget, connectivity, and features"
+      title="BabyPickr"
+      tagline="Find the perfect baby gear for your exact situation"
       categoryNav={
         <CategoryNav isActiveFor={isCategoryActiveForNav} onSelect={handleCategorySelect} />
       }
