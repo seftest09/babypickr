@@ -11,7 +11,7 @@ export type CategoryNavProps = {
 export function CategoryNav({ isActiveFor, onSelect }: CategoryNavProps) {
   return (
     <div
-      className="mt-6 flex w-full max-w-[1400px] flex-wrap items-center justify-center gap-2 sm:gap-2.5"
+      className="mt-8 flex w-full flex-wrap items-center justify-start gap-2 sm:gap-2.5"
       role="tablist"
       aria-label="Product category"
     >

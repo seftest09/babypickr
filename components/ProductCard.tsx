@@ -12,6 +12,7 @@ export type ProductCardProduct = {
   worstFor?: string[];
   rating: number;
   reviewCount: number;
+  imageUrl?: string;
 };
 
 function stableUnitFromString(seed: string): number {
@@ -79,10 +80,21 @@ export function ProductCard({
 
   return (
     <article className="group flex min-h-0 min-w-0 h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm ring-1 ring-[#C4567E]/10 transition duration-300 ease-out hover:-translate-y-1 hover:border-[#9B6BA8]/40 hover:shadow-lg hover:shadow-[#C4567E]/10">
-      <div
-        className="h-1.5 w-full bg-gradient-to-r from-[#C4567E] via-[#9B6BA8] to-[#C4567E]"
-        aria-hidden
-      />
+      <div className="relative h-44 w-full overflow-hidden rounded-t-2xl bg-[#F9E4F0]">
+        {product.imageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={product.imageUrl} alt={product.name} className="h-full w-full object-cover" />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center">
+            <span className="text-lg font-semibold tracking-tight text-[#C4567E]">{product.brand}</span>
+          </div>
+        )}
+
+        <div
+          className="absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r from-[#C4567E] via-[#9B6BA8] to-[#C4567E]"
+          aria-hidden
+        />
+      </div>
       <div className="flex min-h-0 min-w-0 flex-1 flex-col px-6 pb-2 pt-5">
         <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-400">
           {product.brand}
@@ -108,7 +120,7 @@ export function ProductCard({
         {afterTopFeature}
       </div>
 
-      <div className="mt-auto border-t border-[#F5A623]/25 bg-[#FDE8F2] px-6 py-4">
+      <div className="mt-auto border-t border-[#F5A623]/25 bg-[#FFF8F0] px-6 py-4">
         {hasActiveFilter &&
           (!hasSummary ? (
             <button
@@ -128,9 +140,24 @@ export function ProductCard({
           href={amazonHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex w-full min-w-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#A83060] to-[#8B2450] py-3 text-sm font-semibold text-white shadow-md shadow-[#A83060]/30 transition hover:from-[#C4567E] hover:to-[#A83060] hover:shadow-lg"
+          className="inline-flex w-full min-w-0 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#FF9900] to-[#E8860A] px-5 py-3 text-sm font-semibold text-white shadow-md shadow-[#FF9900]/25 transition hover:from-[#FFAA22] hover:to-[#FF9900] hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9900]/60 focus-visible:ring-offset-2"
         >
-          View on Amazon →
+          Amazon
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M14 3h7v7" />
+            <path d="M10 14 21 3" />
+            <path d="M21 14v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" />
+          </svg>
         </a>
       </div>
     </article>
