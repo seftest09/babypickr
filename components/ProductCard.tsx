@@ -42,7 +42,7 @@ function StarLine({ product }: { product: ProductCardProduct }) {
       : Math.floor(150 + stableUnitFromString(`${product.id}:reviews`) * 750);
   return (
     <div className="mt-3 flex flex-wrap items-center gap-2">
-      <span className="inline-flex items-center gap-0.5 rounded-full bg-[#FEF3C7] px-2.5 py-0.5 text-sm font-semibold text-[#92400E] ring-1 ring-[#F59E0B]/40">
+      <span className="inline-flex items-center gap-0.5 rounded-full bg-[#FFF3E0] px-2.5 py-0.5 text-sm font-semibold text-[#92400E] ring-1 ring-[#F5A623]/40">
         <span aria-hidden className="text-[#92400E]">
           ★
         </span>
@@ -79,19 +79,19 @@ export function ProductCard({
   const hasSummary = Boolean(summary);
 
   return (
-    <article className="group flex min-h-0 min-w-0 h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm ring-1 ring-[#C4567E]/10 transition duration-300 ease-out hover:-translate-y-1 hover:border-[#9B6BA8]/40 hover:shadow-lg hover:shadow-[#C4567E]/10">
-      <div className="relative h-44 w-full overflow-hidden rounded-t-2xl bg-[#F9E4F0]">
+    <article className="group flex min-h-0 min-w-0 h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm ring-1 ring-[#388E3C]/10 transition duration-300 ease-out hover:-translate-y-1 hover:border-[#388E3C]/40 hover:shadow-lg hover:shadow-[#388E3C]/10">
+      <div className="relative h-44 w-full overflow-hidden rounded-t-2xl bg-[#C8E6C9]/50">
         {product.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={product.imageUrl} alt={product.name} className="h-full w-full object-cover" />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
-            <span className="text-lg font-semibold tracking-tight text-[#C4567E]">{product.brand}</span>
+            <span className="text-lg font-semibold tracking-tight text-[#388E3C]">{product.brand}</span>
           </div>
         )}
 
         <div
-          className="absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r from-[#C4567E] via-[#9B6BA8] to-[#C4567E]"
+          className="absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r from-[#388E3C] via-[#66BB6A] to-[#388E3C]"
           aria-hidden
         />
       </div>
@@ -102,15 +102,15 @@ export function ProductCard({
         <h3 className="mt-2 text-lg font-semibold leading-snug tracking-tight text-gray-950">
           {product.name}
         </h3>
-        <p className="mt-3 text-2xl font-semibold tracking-tight text-[#C4567E]">
+        <p className="mt-3 text-2xl font-semibold tracking-tight text-[#388E3C]">
           {formatPrice(product.price)}
         </p>
         <StarLine product={product} />
         {afterStars}
 
         <div className="mt-5">
-          <span className="inline-flex max-w-full items-start gap-1.5 rounded-full border border-[#C4567E]/30 bg-[#FDE8F2] px-3 py-1.5 text-xs font-medium leading-snug text-[#C4567E]">
-            <span aria-hidden className="mt-0.5 shrink-0 text-[#C4567E]">
+          <span className="inline-flex max-w-full items-start gap-1.5 rounded-full border border-[#388E3C]/30 bg-[#C8E6C9]/60 px-3 py-1.5 text-xs font-medium leading-snug text-[#1B4332]">
+            <span aria-hidden className="mt-0.5 shrink-0 text-[#388E3C]">
               ✦
             </span>
             <span className="min-w-0">{product.topFeature}</span>
@@ -120,19 +120,19 @@ export function ProductCard({
         {afterTopFeature}
       </div>
 
-      <div className="mt-auto border-t border-[#F5A623]/25 bg-[#FFF8F0] px-6 py-4">
+      <div className="mt-auto border-t border-[#F5A623]/25 bg-[#FFF8E1]/40 px-6 py-4">
         {hasActiveFilter &&
           (!hasSummary ? (
             <button
               type="button"
               onClick={() => void onRequestSummary()}
               disabled={isLoadingSummary}
-              className="mb-2 flex w-full items-center justify-center gap-1.5 rounded-lg border border-[#C4567E]/30 px-3 py-1.5 text-xs font-medium text-[#C4567E] transition hover:bg-[#FDE8F2] disabled:cursor-not-allowed disabled:opacity-60"
+              className="mb-2 flex w-full items-center justify-center gap-1.5 rounded-lg border border-[#388E3C]/30 px-3 py-1.5 text-xs font-medium text-[#388E3C] transition hover:bg-[#C8E6C9]/50 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isLoadingSummary ? "Thinking..." : "✨ Why does this fit me?"}
             </button>
           ) : (
-            <p className="mb-2 mt-2 border-l-2 border-[#C4567E]/30 pl-3 text-xs leading-relaxed text-gray-600 italic">
+            <p className="mb-2 mt-2 border-l-2 border-[#388E3C]/40 pl-3 text-xs leading-relaxed text-gray-600 italic">
               {summary}
             </p>
           ))}

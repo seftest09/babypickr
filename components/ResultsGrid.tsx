@@ -2,12 +2,22 @@
 
 import { Fragment, type ReactNode } from "react";
 
+const BETWEEN_CARD_WISDOM = [
+  `"In simplicity lies the highest sophistication." — Leonardo da Vinci`,
+  `"The middle path holds the most wisdom." — Buddha`,
+  `"That which is measured improves." — Ancient proverb`,
+  `"Buy less, choose well." — Vivienne Westwood`,
+  `"The best things in life are not things." — Art Buchwald`,
+] as const;
+
 export type ResultsGridProps<T> = {
   results: readonly T[];
   renderCard: (item: T) => ReactNode;
   resultsHeader: ReactNode;
   emptyMessage: string;
   onResetFilters?: () => void;
+  /** Insert subtle italic wisdom lines after every 3rd product card (strollers homepage). */
+  insertWisdomBetweenCards?: boolean;
 };
 
 export function ResultsGrid<T>({
@@ -16,6 +26,7 @@ export function ResultsGrid<T>({
   resultsHeader,
   emptyMessage,
   onResetFilters,
+  insertWisdomBetweenCards = false,
 }: ResultsGridProps<T>) {
   return (
     <>
@@ -40,7 +51,7 @@ export function ResultsGrid<T>({
           {onResetFilters && (
             <button
               type="button"
-              className="mt-8 rounded-xl bg-gradient-to-r from-[#C4567E] to-[#9B6BA8] px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-[#C4567E]/30 transition hover:from-[#b04a6f] hover:to-[#8a5a96]"
+              className="mt-8 rounded-xl bg-[#2D6A4F] px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-[#2D6A4F]/30 transition hover:bg-[#1B4332]"
               onClick={onResetFilters}
             >
               Reset filters
@@ -49,9 +60,28 @@ export function ResultsGrid<T>({
         </div>
       ) : (
         <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {results.map((item) => (
-            <Fragment key={(item as { id: string }).id}>{renderCard(item)}</Fragment>
-          ))}
+          {results.flatMap((item, index) => {
+            const id = (item as { id: string }).id;
+            const row = [
+              <Fragment key={id}>{renderCard(item)}</Fragment>,
+            ];
+            if (
+              insertWisdomBetweenCards &&
+              (index + 1) % 3 === 0 &&
+              index < results.length - 1
+            ) {
+              const q = BETWEEN_CARD_WISDOM[Math.floor((index + 1) / 3 - 1) % BETWEEN_CARD_WISDOM.length];
+              row.push(
+                <p
+                  key={`wisdom-${id}`}
+                  className="font-dm-serif-display col-span-full px-2 py-1 pb-2.5 text-center text-xs italic text-[#9B9B9B]"
+                >
+                  {q}
+                </p>,
+              );
+            }
+            return row;
+          })}
         </div>
       )}
     </>

@@ -85,20 +85,20 @@ export function FilterBar({
   return (
     <section
       aria-label="Filters"
-      className="relative z-20 border-b border-[#C4567E]/15 bg-white/90 py-4 shadow-sm shadow-[#C4567E]/5 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80 md:sticky md:top-0"
+      className="relative z-20 border-b border-[#388E3C]/15 bg-white/90 py-4 shadow-sm shadow-[#388E3C]/5 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80 md:sticky md:top-0"
     >
       <div className="mx-auto max-w-[1400px] px-4">
-        <div className="rounded-2xl border border-[#C4567E]/15 bg-white p-6 shadow-sm sm:p-6">
+        <div className="rounded-2xl border border-[#388E3C]/15 bg-white p-6 shadow-sm sm:p-6">
           {/* Mobile: single control row (hidden on md+) */}
           <div className="flex items-center justify-between gap-3 md:hidden">
             <button
               type="button"
               aria-expanded={mobileExpanded}
               aria-controls="filter-bar-panel"
-              className="inline-flex min-h-[44px] min-w-0 flex-1 items-center justify-center gap-2 rounded-xl border border-[#C4567E]/25 bg-[#F9E4F0] px-3 py-2.5 text-sm font-semibold text-[#3D1C2E] shadow-sm transition-colors hover:border-[#C4567E]/50 hover:bg-white"
+              className="inline-flex min-h-[44px] min-w-0 flex-1 items-center justify-center gap-2 rounded-xl border border-[#388E3C]/25 bg-[#C8E6C9]/40 px-3 py-2.5 text-sm font-semibold text-[#1A1A2E] shadow-sm transition-colors hover:border-[#388E3C]/50 hover:bg-white"
               onClick={toggleMobilePanel}
             >
-              <FilterIcon className="shrink-0 text-[#C4567E]" />
+              <FilterIcon className="shrink-0 text-[#388E3C]" />
               <span className="truncate">{filtersButtonLabel}</span>
             </button>
             <div
@@ -122,7 +122,7 @@ export function FilterBar({
                 : "mt-4 hidden md:mt-0 md:block"
             }
           >
-            <p className="mb-4 text-center text-sm leading-relaxed text-gray-600 sm:text-left md:mb-4">
+            <p className="mb-4 text-center text-sm leading-relaxed text-[#6B7280] sm:text-left md:mb-4">
               {subtitle}
             </p>
             <div className={gridClassName}>
@@ -138,8 +138,8 @@ export function FilterBar({
                         type="button"
                         className={`rounded-full border px-4 py-2 text-xs font-medium transition-all duration-200 ${
                           values[group.key] === opt.value
-                            ? "border-[#9B6BA8] bg-[#9B6BA8] text-white shadow-md shadow-[#9B6BA8]/25"
-                            : "border-gray-200 bg-white text-gray-600 shadow-sm hover:border-[#C4567E]/40 hover:text-gray-900"
+                            ? "border-[#388E3C] bg-[#388E3C] text-white shadow-md shadow-[#388E3C]/25"
+                            : "border-gray-200 bg-white text-gray-600 shadow-sm hover:border-[#388E3C]/40 hover:text-gray-900"
                         }`}
                         onClick={() => onChange(group.key, opt.value)}
                       >

@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 
 export type CategoryPageLayoutProps = {
   title: string;
@@ -17,39 +17,77 @@ export function CategoryPageLayout({
   filterBar,
   children,
 }: CategoryPageLayoutProps) {
-  return (
-    <div
-      className="min-h-screen bg-[#FDF6FA] text-gray-900 antialiased [font-family:var(--font-geist-sans),ui-sans-serif,system-ui,sans-serif]"
-    >
-      <header className="relative isolate overflow-hidden border-b border-[#C4567E]/20 bg-[#F9E4F0]">
-        <div className="relative mx-auto max-w-[1400px] px-4 py-10 sm:py-12">
-          <div className="flex flex-col gap-10 lg:flex-row lg:items-stretch lg:gap-12">
-            <div className="w-full lg:w-3/5">
-              <span className="inline-flex items-center rounded-full border border-[#C4567E]/25 bg-white px-3 py-1 text-[11px] font-semibold tracking-wide text-[#C4567E] shadow-sm">
-                {title}
-              </span>
-              <h1 className="mt-4 text-4xl font-semibold leading-tight tracking-tight text-[#3D1C2E] sm:text-5xl [font-family:var(--font-dm-serif-display),serif]">
-                {tagline}
-              </h1>
-              <p className="mt-4 max-w-2xl text-base leading-relaxed text-gray-600">
-                Compare products, filter by your situation, and shop smarter with personalized recommendations.
-              </p>
-              {categoryNav}
-            </div>
+  const artSig = useMemo(() => Math.floor(Math.random() * 10_000), []);
+  const leftSrc = useMemo(
+    () =>
+      `https://source.unsplash.com/600x1400/?pregnancy,baby-bump,motherhood,gentle&sig=${artSig + 1}`,
+    [artSig],
+  );
+  const rightSrc = useMemo(
+    () =>
+      `https://source.unsplash.com/600x1400/?parents,baby,peaceful,soft-light&sig=${artSig + 2}`,
+    [artSig],
+  );
+  const [leftFailed, setLeftFailed] = useState(false);
+  const [rightFailed, setRightFailed] = useState(false);
 
-            <div className="hidden lg:block lg:w-2/5">
-              <div
-                className="h-full min-h-[240px] w-full rounded-[2.75rem] border border-[#C4567E]/15 bg-gradient-to-br from-[#FDE8F2] via-white to-[#F0E8F8] shadow-inner"
-                aria-hidden
-              />
+  return (
+    <div className="relative min-h-screen bg-[#F2F7F2] text-[#1A1A2E] antialiased [font-family:var(--font-geist-sans),ui-sans-serif,system-ui,sans-serif] text-[15px] sm:text-[16px]">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <div className="bp-side-art bp-side-art-left" aria-hidden />
+      <div className="bp-side-art bp-side-art-right" aria-hidden />
+
+      <img
+        className="bp-side-img bp-side-img-left"
+        src={leftFailed ? "/side-art-left.svg" : leftSrc}
+        alt=""
+        aria-hidden
+        onError={() => setLeftFailed(true)}
+      />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        className="bp-side-img bp-side-img-right"
+        src={rightFailed ? "/side-art-right.svg" : rightSrc}
+        alt=""
+        aria-hidden
+        onError={() => setRightFailed(true)}
+      />
+
+      <div className="relative z-10">
+        <header
+          className="relative isolate overflow-hidden border-b border-[#388E3C]/20"
+          style={{ background: "var(--bp-hero-gradient)" }}
+        >
+          <div className="relative mx-auto max-w-[1400px] px-4 py-7 sm:py-9">
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-stretch lg:gap-10">
+              <div className="w-full lg:w-3/5">
+                <span className="inline-flex items-center rounded-full border border-[#388E3C]/25 bg-white px-3 py-1 text-[11px] font-semibold tracking-wide text-[#388E3C] shadow-sm">
+                  {title}
+                </span>
+                <h1 className="font-dm-serif-display mt-3 text-4xl font-semibold leading-tight tracking-tight text-[#1A1A2E] sm:text-5xl">
+                  {tagline}
+                </h1>
+                <p className="mt-3 max-w-2xl leading-relaxed text-[#6B7280]">
+                  Compare products, filter by your situation, and shop smarter with personalized
+                  recommendations.
+                </p>
+                {categoryNav}
+              </div>
+
+              <div className="hidden lg:block lg:w-2/5">
+                <div
+                  className="h-full min-h-[220px] w-full rounded-[2.75rem] border border-[#388E3C]/15 bg-gradient-to-br from-[#C8E6C9] via-white to-[#E3F2FD] shadow-inner"
+                  aria-hidden
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {filterBar}
+        {filterBar}
 
-      <main className="mx-auto max-w-[1400px] px-4 pb-24 pt-10">{children}</main>
+        <main className="mx-auto max-w-[1400px] px-4 pb-20 pt-7">{children}</main>
+      </div>
     </div>
   );
 }

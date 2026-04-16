@@ -1,13 +1,132 @@
 @import "tailwindcss";
 
 :root {
-  --bp-bg: #fdf6fa;
-  --bp-primary: #c4567e;
-  --bp-secondary: #9b6ba8;
-  --bp-accent: #f5a623;
-  --bp-cream: #f9e4f0;
-  --bp-text: #3d1c2e;
-  --bp-muted: #8b5e72;
-  --bp-light: #fde8f2;
-  --bp-navy-light: #f0e8f8;
+  --bp-bg: #f2f7f2;
+  --bp-primary: #388e3c;
+  --bp-primary-light: #c8e6c9;
+  --bp-primary-mid: #dcedc8;
+  --bp-primary-dark: #2d6a4f;
+  --bp-primary-text: #1b4332;
+  --bp-text: #1a1a2e;
+  --bp-muted: #6b7280;
+  --bp-page-bg: #f2f7f2;
+  --bp-card-bg: #ffffff;
+  --bp-amazon: #ff9900;
+  --bp-strollers: #388e3c;
+  --bp-strollers-light: #c8e6c9;
+  --bp-car-seats: #5b9bd5;
+  --bp-car-seats-light: #e3f2fd;
+  --bp-monitors: #f5a623;
+  --bp-monitors-light: #fff3e0;
+  --bp-cribs: #9b6ba8;
+  --bp-cribs-light: #f3e5f5;
+  --bp-high-chairs: #d4a017;
+  --bp-high-chairs-light: #fffde7;
+  --bp-hero-gradient: linear-gradient(
+    150deg,
+    #c8e6c9 0%,
+    #dcedc8 35%,
+    #e3f2fd 78%,
+    #fff8e1 100%
+  );
+  --bp-wisdom-gradient: linear-gradient(135deg, #c8e6c9, #dcedc8);
+  --font-dm-serif-display: "DM Serif Display", Georgia, "Times New Roman", serif;
+}
+
+.font-dm-serif-display {
+  font-family: var(--font-dm-serif-display);
+}
+
+@keyframes bp-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}
+
+.animate-bp-breathe {
+  animation: bp-breathe 3s ease-in-out infinite;
+}
+
+.bp-side-art {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: min(360px, 22vw);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.32;
+  mix-blend-mode: multiply;
+  background-repeat: no-repeat;
+  background-size: contain;
+  filter: saturate(0.95) blur(0.1px);
+}
+
+.bp-side-art-left {
+  left: 0;
+  background-position: left 32% center;
+  background-image: url("/side-art-left.svg");
+}
+
+.bp-side-art-right {
+  right: 0;
+  transform: scaleX(-1);
+  background-position: left 36% center;
+  background-image: url("/side-art-right.svg");
+}
+
+.bp-side-img {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: min(460px, 34vw);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.30;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+  filter: saturate(0.82) contrast(0.98) brightness(1.02);
+  mask-image: linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 22%,
+    black 78%,
+    transparent 100%
+  );
+}
+
+.bp-side-img-left {
+  left: 0;
+}
+
+.bp-side-img-right {
+  right: 0;
+  transform: scaleX(-1);
+}
+
+@media (max-width: 768px) {
+  .bp-side-img {
+    width: min(320px, 52vw);
+    opacity: 0.24;
+    mask-image: linear-gradient(to right, transparent 0%, black 14%, black 86%, transparent 100%);
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 14%,
+      black 86%,
+      transparent 100%
+    );
+  }
+}
+
+@supports not (mix-blend-mode: multiply) {
+  .bp-side-img {
+    opacity: 0.16;
+  }
 }

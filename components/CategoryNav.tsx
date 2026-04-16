@@ -25,8 +25,8 @@ export function CategoryNav({ isActiveFor, onSelect }: CategoryNavProps) {
             aria-selected={isActive}
             className={`rounded-full border px-3 py-2 text-xs font-semibold transition-all duration-200 sm:px-4 sm:text-sm ${
               isActive
-                ? "border-[#C4567E] bg-[#C4567E] text-white shadow-md shadow-[#C4567E]/25"
-                : "border-gray-200 bg-white text-gray-600 shadow-sm hover:border-[#C4567E]/40 hover:text-gray-900"
+                ? "border-[#388E3C] bg-[#388E3C] text-white shadow-md shadow-[#388E3C]/25"
+                : "border-gray-200 bg-white text-gray-600 shadow-sm hover:border-[#388E3C]/40 hover:text-gray-900"
             }`}
             onClick={() => onSelect(cat.id)}
           >

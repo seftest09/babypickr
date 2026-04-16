@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useProductAiSummary } from "@/hooks/useProductAiSummary";
 import { useRouter } from "next/navigation";
 import { CategoryNav } from "@/components/CategoryNav";
@@ -15,6 +15,7 @@ import { carSeats as allCarSeats } from "@/data/car-seats";
 import { getTag } from "@/config/affiliate";
 import { buildAmazonLink } from "@/lib/affiliate";
 import { filterCarSeats } from "@/lib/filters/carSeats";
+import { journeyRequestsCompactCar, readJourneyFromStorage } from "@/lib/journeyStorage";
 
 const BUDGET_OPTIONS = [
   { label: "All", value: "all" },
@@ -87,6 +88,15 @@ export default function CarSeatsPage() {
   });
   const [category, setCategory] = useState<CategoryId>("car-seats");
 
+  useEffect(() => {
+    const j = readJourneyFromStorage();
+    if (j && journeyRequestsCompactCar(j.situations)) {
+      setFilters((prev) =>
+        prev.vehicleFit === "all" ? { ...prev, vehicleFit: "compact" } : prev,
+      );
+    }
+  }, []);
+
   const results = useMemo(() => filterCarSeats(allCarSeats, filters), [filters]);
 
   const { summaries, loadingSummaries, requestSummary } = useProductAiSummary(filters, "car seat");
@@ -144,12 +154,12 @@ export default function CarSeatsPage() {
     <div className="flex flex-col gap-4 border-b border-gray-200 pb-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
         <div className="min-w-0 shrink-0">
-          <p className="text-xs font-semibold uppercase tracking-wider text-[#8B5E72]">Results</p>
-          <h2 className="mt-1 text-2xl font-semibold tracking-tight text-[#3D1C2E]">
+          <p className="text-xs font-semibold uppercase tracking-wider text-[#6B7280]">Results</p>
+          <h2 className="font-dm-serif-display mt-1 text-2xl font-semibold tracking-tight text-[#1A1A2E]">
             {results.length === 1 ? "Showing 1 car seat" : `Showing ${results.length} car seats`}
           </h2>
         </div>
-        <p className="max-w-md shrink-0 text-sm leading-relaxed text-gray-500">
+        <p className="max-w-md shrink-0 text-sm leading-relaxed text-[#6B7280]">
           Refined picks matched to your budget, seat type, and vehicle size.
         </p>
       </div>
@@ -168,13 +178,13 @@ export default function CarSeatsPage() {
       {category !== "car-seats" ? (
         <div className="flex flex-col items-center px-4 py-16 sm:py-24">
           <div
-            className="mb-6 flex h-36 w-full max-w-sm items-center justify-center rounded-3xl border border-[#C4567E]/20 bg-gradient-to-br from-[#FDE8F2] to-white text-[#9B6BA8]/40 shadow-inner"
+            className="mb-6 flex h-36 w-full max-w-sm items-center justify-center rounded-3xl border border-[#388E3C]/20 bg-gradient-to-br from-[#C8E6C9] to-white text-[#388E3C]/40 shadow-inner"
             aria-hidden
           >
-            <span className="text-5xl font-semibold tracking-tight text-[#C4567E]/80">Soon</span>
+            <span className="text-5xl font-semibold tracking-tight text-[#388E3C]/80">Soon</span>
           </div>
           <p className="text-center text-2xl font-semibold tracking-tight text-gray-700">Coming soon</p>
-          <p className="mt-3 max-w-md text-center text-sm leading-relaxed text-gray-500">
+          <p className="mt-3 max-w-md text-center text-sm leading-relaxed text-[#6B7280]">
             We&apos;re expanding BabyPickr beyond car seats. Pick another tab or switch back to Car Seats to
             explore picks today.
           </p>
@@ -214,7 +224,7 @@ export default function CarSeatsPage() {
                     <span
                       className={`rounded-full px-3 py-1 text-xs font-semibold ring-1 ${
                         seat.latchCompatible
-                          ? "bg-[#F0E8F8] text-[#6B4A8B] ring-[#9B6BA8]/30"
+                          ? "bg-[#E3F2FD] text-[#1A1A2E] ring-[#5B9BD5]/35"
                           : "bg-gray-100 text-gray-500 ring-gray-200/70"
                       }`}
                     >
@@ -229,7 +239,7 @@ export default function CarSeatsPage() {
                         {seat.bestFor.map((tag) => (
                           <span
                             key={tag}
-                            className="rounded-full bg-[#F0E8F8] px-2 py-0.5 text-xs font-medium text-[#6B4A8B] ring-1 ring-[#9B6BA8]/30"
+                            className="rounded-full bg-[#C8E6C9] px-2 py-0.5 text-xs font-medium text-[#1B4332] ring-1 ring-[#388E3C]/25"
                           >
                             {tag}
                           </span>
