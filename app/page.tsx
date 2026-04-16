@@ -129,7 +129,14 @@ export default function Home() {
     setFilters(applyJourneySituationsToStrollerFilters(data.situations, INITIAL_FILTERS));
     setJourneyComplete(true);
     setBannerMode("fresh");
-  }, []);
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const returnTo = params.get("returnTo");
+      if (returnTo && returnTo.startsWith("/")) {
+        router.replace(returnTo);
+      }
+    }
+  }, [router]);
 
   const startJourneyOver = useCallback(() => {
     clearJourneyStorage();

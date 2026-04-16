@@ -25,8 +25,9 @@
   --bp-hero-gradient: linear-gradient(
     150deg,
     #c8e6c9 0%,
-    #dcedc8 35%,
-    #e3f2fd 78%,
+    #dcedc8 26%,
+    #e3f2fd 56%,
+    #e3f2fd 82%,
     #fff8e1 100%
   );
   --bp-wisdom-gradient: linear-gradient(135deg, #c8e6c9, #dcedc8);
@@ -38,15 +39,8 @@
 }
 
 @keyframes bp-breathe {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.85;
-  }
-  50% {
-    transform: scale(1.12);
-    opacity: 1;
-  }
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.08); opacity: 1; }
 }
 
 .animate-bp-breathe {
@@ -54,51 +48,34 @@
 }
 
 .bp-side-art {
-  position: fixed;
+  position: absolute;
   top: 0;
   bottom: 0;
-  width: min(360px, 22vw);
+  width: 180px;
   pointer-events: none;
-  z-index: 0;
-  opacity: 0.32;
-  mix-blend-mode: multiply;
-  background-repeat: no-repeat;
-  background-size: contain;
-  filter: saturate(0.95) blur(0.1px);
+  z-index: 1;
 }
 
 .bp-side-art-left {
   left: 0;
-  background-position: left 32% center;
-  background-image: url("/side-art-left.svg");
+  background: linear-gradient(to right, rgba(200,230,201,0.4), transparent);
 }
 
 .bp-side-art-right {
   right: 0;
-  transform: scaleX(-1);
-  background-position: left 36% center;
-  background-image: url("/side-art-right.svg");
+  background: linear-gradient(to left, rgba(187,222,251,0.4), transparent);
 }
 
 .bp-side-img {
-  position: fixed;
+  position: absolute;
   top: 0;
   bottom: 0;
-  width: min(460px, 34vw);
-  pointer-events: none;
-  z-index: 2;
-  opacity: 0.30;
+  width: 160px;
+  height: 100%;
   object-fit: cover;
-  mix-blend-mode: multiply;
-  filter: saturate(0.82) contrast(0.98) brightness(1.02);
-  mask-image: linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%);
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 22%,
-    black 78%,
-    transparent 100%
-  );
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .bp-side-img-left {
@@ -107,26 +84,12 @@
 
 .bp-side-img-right {
   right: 0;
-  transform: scaleX(-1);
 }
 
 @media (max-width: 768px) {
+  .bp-side-img { display: none; }
   .bp-side-img {
-    width: min(320px, 52vw);
-    opacity: 0.24;
-    mask-image: linear-gradient(to right, transparent 0%, black 14%, black 86%, transparent 100%);
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent 0%,
-      black 14%,
-      black 86%,
-      transparent 100%
-    );
+    display: none;
   }
-}
-
-@supports not (mix-blend-mode: multiply) {
-  .bp-side-img {
-    opacity: 0.16;
-  }
+  .bp-side-art { width: 80px; }
 }

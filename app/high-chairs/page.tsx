@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useProductAiSummary } from "@/hooks/useProductAiSummary";
 import { useRouter } from "next/navigation";
 import { CategoryNav } from "@/components/CategoryNav";
@@ -15,6 +15,10 @@ import { highChairs as allHighChairs } from "@/data/high-chairs";
 import { getTag } from "@/config/affiliate";
 import { buildAmazonLink } from "@/lib/affiliate";
 import { filterHighChairs } from "@/lib/filters/highChairs";
+import {
+  applyJourneySituationsToHighChairFilters,
+  readJourneyFromStorage,
+} from "@/lib/journeyStorage";
 
 const BUDGET_OPTIONS = [
   { label: "All", value: "all" },
@@ -83,6 +87,15 @@ export default function HighChairsPage() {
     priority: "all",
   });
   const [category, setCategory] = useState<CategoryId>("high-chairs");
+
+  useEffect(() => {
+    const j = readJourneyFromStorage();
+    if (!j) {
+      router.replace("/?returnTo=/high-chairs");
+      return;
+    }
+    setFilters((prev) => applyJourneySituationsToHighChairFilters(j.situations, prev));
+  }, [router]);
 
   const results = useMemo(() => filterHighChairs(allHighChairs, filters), [filters]);
 

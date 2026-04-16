@@ -17,41 +17,13 @@ export function CategoryPageLayout({
   filterBar,
   children,
 }: CategoryPageLayoutProps) {
-  const artSig = useMemo(() => Math.floor(Math.random() * 10_000), []);
-  const leftSrc = useMemo(
-    () =>
-      `https://source.unsplash.com/600x1400/?pregnancy,baby-bump,motherhood,gentle&sig=${artSig + 1}`,
-    [artSig],
-  );
-  const rightSrc = useMemo(
-    () =>
-      `https://source.unsplash.com/600x1400/?parents,baby,peaceful,soft-light&sig=${artSig + 2}`,
-    [artSig],
-  );
   const [leftFailed, setLeftFailed] = useState(false);
   const [rightFailed, setRightFailed] = useState(false);
 
   return (
     <div className="relative min-h-screen bg-[#F2F7F2] text-[#1A1A2E] antialiased [font-family:var(--font-geist-sans),ui-sans-serif,system-ui,sans-serif] text-[15px] sm:text-[16px]">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <div className="bp-side-art bp-side-art-left" aria-hidden />
       <div className="bp-side-art bp-side-art-right" aria-hidden />
-
-      <img
-        className="bp-side-img bp-side-img-left"
-        src={leftFailed ? "/side-art-left.svg" : leftSrc}
-        alt=""
-        aria-hidden
-        onError={() => setLeftFailed(true)}
-      />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        className="bp-side-img bp-side-img-right"
-        src={rightFailed ? "/side-art-right.svg" : rightSrc}
-        alt=""
-        aria-hidden
-        onError={() => setRightFailed(true)}
-      />
 
       <div className="relative z-10">
         <header

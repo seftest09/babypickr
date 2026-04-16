@@ -320,17 +320,6 @@ export function JourneyFlow({ onComplete }: JourneyFlowProps) {
   const [statusIndex, setStatusIndex] = useState(0);
   const [showSubQuote, setShowSubQuote] = useState(false);
 
-  const artSig = useMemo(() => Math.floor(Math.random() * 10_000), []);
-  const leftArtSrc = useMemo(
-    () =>
-      `https://source.unsplash.com/600x1400/?pregnancy,baby-bump,motherhood,gentle&sig=${artSig + 11}`,
-    [artSig],
-  );
-  const rightArtSrc = useMemo(
-    () =>
-      `https://source.unsplash.com/600x1400/?parents,baby,peaceful,soft-light&sig=${artSig + 12}`,
-    [artSig],
-  );
   const [leftFailed, setLeftFailed] = useState(false);
   const [rightFailed, setRightFailed] = useState(false);
 
@@ -454,66 +443,53 @@ export function JourneyFlow({ onComplete }: JourneyFlowProps) {
   if (screen === 0) {
     return (
       <div
-        className="relative min-h-screen px-4 py-8 sm:py-10 text-[15px] sm:text-[16px]"
+        className="relative min-h-[100svh] flex flex-col overflow-hidden px-8 py-10 text-[15px] sm:px-12 sm:py-14 sm:text-[16px] md:px-16 lg:px-20"
         style={{ background: "var(--bp-hero-gradient)" }}
       >
         <div className="bp-side-art bp-side-art-left" aria-hidden />
         <div className="bp-side-art bp-side-art-right" aria-hidden />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          className="bp-side-img bp-side-img-left"
-          src={leftFailed ? "/side-art-left.svg" : leftArtSrc}
-          alt=""
-          aria-hidden
-          onError={() => setLeftFailed(true)}
-        />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          className="bp-side-img bp-side-img-right"
-          src={rightFailed ? "/side-art-right.svg" : rightArtSrc}
-          alt=""
-          aria-hidden
-          onError={() => setRightFailed(true)}
-        />
 
-        <div className="relative z-10 mx-auto flex min-h-[calc(100vh-2.5rem)] max-w-lg flex-col pt-4 sm:pt-6">
-          <div className="flex flex-col items-stretch">
-            <h1 className="font-dm-serif-display text-center text-[42px] leading-tight text-[#1A1A2E]">
+        <div className="relative z-10 flex min-h-[100svh] flex-col">
+          <div className="flex w-full max-w-3xl flex-col items-stretch text-left">
+            <div className="mb-10 sm:mb-14">
+              <h1 className="font-dm-serif-display max-w-none text-5xl leading-tight text-[#1A1A2E] sm:text-6xl md:text-7xl">
               BabyPickr
-            </h1>
-            <p className="mt-2.5 text-center text-[12px] font-semibold uppercase tracking-[0.28em] text-[#2D6A4F]">
-              The baby gear guide parents trust
-            </p>
-            <h2 className="font-dm-serif-display mt-7 text-center text-[30px] leading-snug text-[#1A1A2E]">
+              </h1>
+              <p className="mt-2.5 text-[12px] font-semibold uppercase tracking-[0.28em] text-[#2D6A4F]">
+                The baby gear guide parents trust
+              </p>
+            </div>
+            <h2 className="font-dm-serif-display mt-6 max-w-xl text-3xl leading-[1.05] text-[#1A1A2E] sm:text-4xl md:text-5xl">
               Find the perfect baby gear
               <br />
               for your exact situation
             </h2>
-            <p className="mt-3 text-center text-[15px] leading-relaxed text-[#1A1A2E]/85">
+            <p className="mt-4 max-w-md text-[15px] leading-relaxed text-[#1A1A2E]/85">
               Not a generic list. A guided experience that understands your life — then reveals exactly what
               fits you and your family.
             </p>
-
-            <div className="mt-7 rounded-2xl border-l-4 border-[#388E3C] bg-white/70 p-5 shadow-sm backdrop-blur-sm">
-              <p className="font-dm-serif-display text-[16px] italic leading-relaxed text-[#1B4332]">
-                &ldquo;Before the birth of love, there is preparation. Before preparation, there is
-                wisdom.&rdquo;
+            <div className="mt-8">
+              <button
+                type="button"
+                className="inline-flex max-w-none rounded-full bg-[#388E3C] px-8 py-3.5 text-[15px] font-semibold text-white shadow-md shadow-[#388E3C]/30 transition hover:bg-[#2D6A4F]"
+                onClick={() => setScreen(1)}
+              >
+                Begin your journey →
+              </button>
+              <p className="mt-3 max-w-none text-[13px] text-[#6B7280]">
+                Takes less than 60 seconds · No sign up needed
               </p>
-              <p className="mt-2 text-[12px] text-[#6B7280]">— Adapted from Rigveda 10.129</p>
             </div>
           </div>
 
-          <div className="mt-auto pt-7">
-            <button
-              type="button"
-              className="w-full rounded-2xl bg-[#2D6A4F] px-6 py-3.5 text-[15px] font-semibold text-white shadow-lg shadow-[#2D6A4F]/25 transition hover:bg-[#1B4332]"
-              onClick={() => setScreen(1)}
-            >
-              Begin your journey →
-            </button>
-            <p className="mt-3 text-center text-[12px] text-[#6B7280]">
-              Takes less than 60 seconds · No sign up needed
-            </p>
+          <div className="mt-10 max-w-xl pb-6">
+            <div className="max-w-xl rounded-2xl border-l-4 border-[#388E3C] bg-white/75 p-6 shadow-sm backdrop-blur-sm">
+              <p className="font-dm-serif-display text-[18px] sm:text-[20px] italic leading-relaxed text-[#1B4332]">
+                &ldquo;Before the birth of love, there is preparation. Before preparation, there is
+                wisdom.&rdquo;
+              </p>
+              <p className="mt-3 text-[13px] text-[#6B7280]">— Adapted from Rigveda 10.129</p>
+            </div>
           </div>
         </div>
       </div>
@@ -523,38 +499,22 @@ export function JourneyFlow({ onComplete }: JourneyFlowProps) {
   if (screen === 1) {
     return (
       <div
-        className="relative min-h-screen px-4 py-6 pb-10 text-[15px] sm:text-[16px]"
+        className="relative min-h-[100svh] flex flex-col px-6 py-10 text-[15px] sm:px-10 sm:text-[16px]"
         style={{ background: "var(--bp-hero-gradient)" }}
       >
         <div className="bp-side-art bp-side-art-left" aria-hidden />
         <div className="bp-side-art bp-side-art-right" aria-hidden />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          className="bp-side-img bp-side-img-left"
-          src={leftFailed ? "/side-art-left.svg" : leftArtSrc}
-          alt=""
-          aria-hidden
-          onError={() => setLeftFailed(true)}
-        />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          className="bp-side-img bp-side-img-right"
-          src={rightFailed ? "/side-art-right.svg" : rightArtSrc}
-          alt=""
-          aria-hidden
-          onError={() => setRightFailed(true)}
-        />
 
-        <div className="relative z-10 mx-auto max-w-2xl">
+        <div className="relative z-10 max-w-xl pl-0">
           <ProgressSteps step={1} />
-          <h2 className="font-dm-serif-display mt-6 text-center text-[26px] text-[#1A1A2E]">
+          <h2 className="font-dm-serif-display mt-6 text-[26px] text-[#1A1A2E]">
             What are you preparing for?
           </h2>
-          <p className="mt-2 text-center text-[15px] text-[#6B7280]">
+          <p className="mt-2 text-[15px] text-[#6B7280]">
             Every journey begins differently. Tell us yours.
           </p>
 
-          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="mt-6 grid grid-cols-2 gap-4 w-full">
             {JOURNEY_OPTIONS.map((opt) => {
               const selected = journeyType === opt.id;
               return (
@@ -562,18 +522,16 @@ export function JourneyFlow({ onComplete }: JourneyFlowProps) {
                   key={opt.id}
                   type="button"
                   onClick={() => setJourneyType(opt.id)}
-                  className={`flex flex-col items-start rounded-2xl border-2 p-4 text-left transition-all ${
+                  className={`flex min-h-[120px] flex-col items-start rounded-2xl border-2 p-4 text-left transition-all ${
                     selected
                       ? "border-[#388E3C] bg-[#C8E6C9]/50 shadow-sm"
                       : "border-transparent bg-white/80 hover:border-[#388E3C]/30"
                   }`}
                 >
-                  <div
-                    className={`flex h-14 w-14 items-center justify-center rounded-xl ${opt.iconBg}`}
-                  >
+                  <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${opt.iconBg}`}>
                     {journeyIcon(opt.id)}
                   </div>
-                  <span className="mt-3 text-[17px] font-semibold text-[#1A1A2E]">{opt.title}</span>
+                  <span className="mt-3 text-lg font-semibold text-[#1A1A2E]">{opt.title}</span>
                   <span className="mt-1 text-[14px] text-[#6B7280]">{opt.description}</span>
                 </button>
               );
@@ -594,7 +552,7 @@ export function JourneyFlow({ onComplete }: JourneyFlowProps) {
               >
                 <WisdomLeafSymbol className="h-6 w-6 shrink-0" />
                 <div className="min-w-0">
-                  <p className="font-dm-serif-display text-[15px] italic leading-snug text-[#1B4332]">
+                  <p className="font-dm-serif-display text-base italic leading-snug text-[#1B4332]">
                     &ldquo;{selectedJourneyWisdom.quote}&rdquo;
                   </p>
                   <p className="mt-1 text-[11px] text-[#9B9B9B]">{selectedJourneyWisdom.source}</p>
@@ -617,37 +575,21 @@ export function JourneyFlow({ onComplete }: JourneyFlowProps) {
   }
 
   return (
-    <div className="relative min-h-screen px-4 py-6 pb-10 text-[15px] sm:text-[16px]" style={{ background: "var(--bp-hero-gradient)" }}>
+    <div className="relative min-h-[100svh] flex flex-col px-6 py-10 text-[15px] sm:px-10 sm:text-[16px]" style={{ background: "var(--bp-hero-gradient)" }}>
       <div className="bp-side-art bp-side-art-left" aria-hidden />
       <div className="bp-side-art bp-side-art-right" aria-hidden />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        className="bp-side-img bp-side-img-left"
-        src={leftFailed ? "/side-art-left.svg" : leftArtSrc}
-        alt=""
-        aria-hidden
-        onError={() => setLeftFailed(true)}
-      />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        className="bp-side-img bp-side-img-right"
-        src={rightFailed ? "/side-art-right.svg" : rightArtSrc}
-        alt=""
-        aria-hidden
-        onError={() => setRightFailed(true)}
-      />
 
-      <div className="relative z-10 mx-auto max-w-3xl">
+      <div className="relative z-10 max-w-xl pl-0">
         <ProgressSteps step={2} />
-        <h2 className="font-dm-serif-display mt-6 text-center text-[26px] text-[#1A1A2E]">
+        <h2 className="font-dm-serif-display mt-6 text-[26px] text-[#1A1A2E]">
           Tell us about your life
         </h2>
-        <p className="mt-2 text-center text-[15px] text-[#6B7280]">
+        <p className="mt-2 text-[15px] text-[#6B7280]">
           The right gear depends on how you actually live.
         </p>
-        <p className="mt-1 text-center text-[12px] font-medium text-[#388E3C]">✓ Select all that apply</p>
+        <p className="mt-1 text-[12px] font-medium text-[#388E3C]">✓ Select all that apply</p>
 
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid w-full grid-cols-2 gap-4 sm:grid-cols-3">
           {SITUATION_OPTIONS.map((opt) => {
             const selected = situations.includes(opt.id);
             return (
@@ -655,7 +597,7 @@ export function JourneyFlow({ onComplete }: JourneyFlowProps) {
                 key={opt.id}
                 type="button"
                 onClick={() => toggleSituation(opt.id)}
-                className={`flex flex-col items-start rounded-2xl border-2 p-4 text-left transition-all ${
+                className={`flex min-h-[100px] flex-col items-start rounded-2xl border-2 p-4 text-left transition-all ${
                   selected
                     ? "border-[#388E3C] bg-[#C8E6C9]/50 shadow-sm"
                     : "border-transparent bg-white/80 hover:border-[#388E3C]/30"
@@ -681,7 +623,7 @@ export function JourneyFlow({ onComplete }: JourneyFlowProps) {
             🌿
           </span>
           <div className="min-w-0">
-            <p className="font-dm-serif-display text-[15px] italic leading-snug text-[#1B4332]">
+            <p className="font-dm-serif-display text-base italic leading-snug text-[#1B4332]">
               &ldquo;Know thyself, and the right path reveals itself naturally.&rdquo;
             </p>
             <p className="mt-1 text-[11px] text-[#9B9B9B]">— Chandogya Upanishad, adapted</p>

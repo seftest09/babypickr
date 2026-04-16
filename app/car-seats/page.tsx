@@ -15,7 +15,10 @@ import { carSeats as allCarSeats } from "@/data/car-seats";
 import { getTag } from "@/config/affiliate";
 import { buildAmazonLink } from "@/lib/affiliate";
 import { filterCarSeats } from "@/lib/filters/carSeats";
-import { journeyRequestsCompactCar, readJourneyFromStorage } from "@/lib/journeyStorage";
+import {
+  applyJourneySituationsToCarSeatFilters,
+  readJourneyFromStorage,
+} from "@/lib/journeyStorage";
 
 const BUDGET_OPTIONS = [
   { label: "All", value: "all" },
@@ -90,11 +93,11 @@ export default function CarSeatsPage() {
 
   useEffect(() => {
     const j = readJourneyFromStorage();
-    if (j && journeyRequestsCompactCar(j.situations)) {
-      setFilters((prev) =>
-        prev.vehicleFit === "all" ? { ...prev, vehicleFit: "compact" } : prev,
-      );
+    if (!j) {
+      router.replace("/?returnTo=/car-seats");
+      return;
     }
+    setFilters((prev) => applyJourneySituationsToCarSeatFilters(j.situations, prev));
   }, []);
 
   const results = useMemo(() => filterCarSeats(allCarSeats, filters), [filters]);

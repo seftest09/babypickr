@@ -122,7 +122,7 @@ export function FilterBar({
                 : "mt-4 hidden md:mt-0 md:block"
             }
           >
-            <p className="mb-4 text-center text-sm leading-relaxed text-[#6B7280] sm:text-left md:mb-4">
+            <p className="mb-4 text-sm leading-relaxed text-[#6B7280] md:mb-4">
               {subtitle}
             </p>
             <div className={gridClassName}>

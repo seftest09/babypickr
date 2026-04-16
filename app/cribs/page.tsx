@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useProductAiSummary } from "@/hooks/useProductAiSummary";
 import { useRouter } from "next/navigation";
 import { CategoryNav } from "@/components/CategoryNav";
@@ -15,6 +15,7 @@ import { cribs as allCribs } from "@/data/cribs";
 import { getTag } from "@/config/affiliate";
 import { buildAmazonLink } from "@/lib/affiliate";
 import { filterCribs } from "@/lib/filters/cribs";
+import { applyJourneySituationsToCribFilters, readJourneyFromStorage } from "@/lib/journeyStorage";
 
 const BUDGET_OPTIONS = [
   { label: "All", value: "all" },
@@ -87,6 +88,15 @@ export default function CribsPage() {
     priority: "all",
   });
   const [category, setCategory] = useState<CategoryId>("cribs");
+
+  useEffect(() => {
+    const j = readJourneyFromStorage();
+    if (!j) {
+      router.replace("/?returnTo=/cribs");
+      return;
+    }
+    setFilters((prev) => applyJourneySituationsToCribFilters(j.situations, prev));
+  }, [router]);
 
   const results = useMemo(() => filterCribs(allCribs, filters), [filters]);
 

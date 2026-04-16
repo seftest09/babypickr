@@ -1,4 +1,10 @@
 import type { FilterState } from "@/types/product";
+import type {
+  CarSeatFilterState,
+  CribFilterState,
+  HighChairFilterState,
+  MonitorFilterState,
+} from "@/types/product";
 
 export const JOURNEY_STORAGE_KEY = "babypickr_journey_done";
 
@@ -90,4 +96,45 @@ export function applyJourneySituationsToStrollerFilters(
 
 export function journeyRequestsCompactCar(situations: SituationId[]): boolean {
   return situations.includes("compact-car");
+}
+
+export function applyJourneySituationsToCarSeatFilters(
+  situations: SituationId[],
+  base: CarSeatFilterState,
+): CarSeatFilterState {
+  const next: CarSeatFilterState = { ...base };
+  if (situations.includes("compact-car")) next.vehicleFit = "compact";
+  if (situations.includes("value-matters")) next.priority = "value";
+  return next;
+}
+
+export function applyJourneySituationsToCribFilters(
+  situations: SituationId[],
+  base: CribFilterState,
+): CribFilterState {
+  const next: CribFilterState = { ...base };
+  // City/apartment maps best to compact / apartment-friendly intent.
+  if (situations.includes("city-apartment")) next.priority = "compact";
+  if (situations.includes("value-matters")) next.priority = "value";
+  return next;
+}
+
+export function applyJourneySituationsToHighChairFilters(
+  situations: SituationId[],
+  base: HighChairFilterState,
+): HighChairFilterState {
+  const next: HighChairFilterState = { ...base };
+  if (situations.includes("city-apartment")) next.space = "apartment";
+  if (situations.includes("house-suburbs")) next.space = "house";
+  if (situations.includes("value-matters")) next.priority = "value";
+  return next;
+}
+
+export function applyJourneySituationsToMonitorFilters(
+  situations: SituationId[],
+  base: MonitorFilterState,
+): MonitorFilterState {
+  const next: MonitorFilterState = { ...base };
+  if (situations.includes("value-matters")) next.priority = "value";
+  return next;
 }

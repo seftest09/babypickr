@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useProductAiSummary } from "@/hooks/useProductAiSummary";
 import { useRouter } from "next/navigation";
 import { CategoryNav } from "@/components/CategoryNav";
@@ -15,6 +15,7 @@ import { monitors as allMonitors } from "@/data/monitors";
 import { getTag } from "@/config/affiliate";
 import { buildAmazonLink } from "@/lib/affiliate";
 import { filterMonitors } from "@/lib/filters/monitors";
+import { applyJourneySituationsToMonitorFilters, readJourneyFromStorage } from "@/lib/journeyStorage";
 
 const BUDGET_OPTIONS = [
   { label: "All", value: "all" },
@@ -96,6 +97,15 @@ export default function MonitorsPage() {
     priority: "all",
   });
   const [category, setCategory] = useState<CategoryId>("baby-monitors");
+
+  useEffect(() => {
+    const j = readJourneyFromStorage();
+    if (!j) {
+      router.replace("/?returnTo=/monitors");
+      return;
+    }
+    setFilters((prev) => applyJourneySituationsToMonitorFilters(j.situations, prev));
+  }, [router]);
 
   const results = useMemo(() => filterMonitors(allMonitors, filters), [filters]);
 
