@@ -12,6 +12,9 @@ export const monitors: BabyMonitor[] = [
     batteryLife: "no-battery",
     range: "long",
     budgetTier: "premium",
+    isPortable: false,            // plugged in, no battery
+    hasMultiRoom: false,          // single camera; multi-room needs separate units
+    hasSmartFeatures: true,       // sleep tracking, breathing motion, smart alerts
     bestFor: ["sleep tracking", "smart alerts", "app monitoring"],
     worstFor: ["offline use", "budget shoppers", "portable travel"],
     topFeature: "Excellent sleep insights",
@@ -30,6 +33,9 @@ export const monitors: BabyMonitor[] = [
     batteryLife: "no-battery",
     range: "long",
     budgetTier: "premium",
+    isPortable: false,
+    hasMultiRoom: true,           // supports dual camera add-on for second room
+    hasSmartFeatures: true,       // AI face/object detection, danger zone alerts
     bestFor: ["safety alerts", "high-resolution video", "AI detection"],
     worstFor: ["low-budget buyers", "simple setup", "non-wifi monitoring"],
     topFeature: "AI safety alerts",
@@ -48,6 +54,9 @@ export const monitors: BabyMonitor[] = [
     batteryLife: "no-battery",
     range: "long",
     budgetTier: "premium",
+    isPortable: false,
+    hasMultiRoom: false,          // single unit; no multi-room support
+    hasSmartFeatures: true,       // contactless breathing + motion sensing
     bestFor: ["breathing monitoring", "crisp video", "tech-forward parents"],
     worstFor: ["budget buyers", "offline use", "basic monitoring"],
     topFeature: "Breathing and sleep tracking",
@@ -66,6 +75,9 @@ export const monitors: BabyMonitor[] = [
     batteryLife: "no-battery",
     range: "long",
     budgetTier: "premium",
+    isPortable: false,
+    hasMultiRoom: false,
+    hasSmartFeatures: true,       // vital signs sock + camera bundle
     bestFor: ["vital monitoring", "sleep tracking", "newborn peace of mind"],
     worstFor: ["simple video only", "budget shoppers", "offline households"],
     topFeature: "Vitals plus camera bundle",
@@ -84,6 +96,9 @@ export const monitors: BabyMonitor[] = [
     batteryLife: "8-12hrs",
     range: "long",
     budgetTier: "mid",
+    isPortable: true,             // battery-powered parent unit, no wifi needed
+    hasMultiRoom: false,
+    hasSmartFeatures: false,
     bestFor: ["privacy", "travel", "no-wifi homes"],
     worstFor: ["remote access", "app users", "tech-heavy features"],
     topFeature: "Private non-WiFi monitoring",
@@ -102,6 +117,9 @@ export const monitors: BabyMonitor[] = [
     batteryLife: "8-12hrs",
     range: "long",
     budgetTier: "mid",
+    isPortable: true,             // battery-powered, carry anywhere in the house
+    hasMultiRoom: true,           // supports adding a second camera unit
+    hasSmartFeatures: false,
     bestFor: ["non-wifi monitoring", "reliable audio", "long range"],
     worstFor: ["smart features", "remote viewing", "high-resolution video"],
     topFeature: "Trusted non-WiFi choice",
@@ -120,6 +138,9 @@ export const monitors: BabyMonitor[] = [
     batteryLife: "8-12hrs",
     range: "long",
     budgetTier: "mid",
+    isPortable: true,             // battery-powered parent unit
+    hasMultiRoom: false,
+    hasSmartFeatures: false,
     bestFor: ["large screen viewing", "clear video", "simple setup"],
     worstFor: ["app control", "remote access", "portable streaming"],
     topFeature: "Excellent local video",
@@ -138,6 +159,9 @@ export const monitors: BabyMonitor[] = [
     batteryLife: "8-12hrs",
     range: "long",
     budgetTier: "budget",
+    isPortable: true,             // battery in parent unit + wifi hybrid
+    hasMultiRoom: false,
+    hasSmartFeatures: false,      // app but no AI/analytics — basic smart
     bestFor: ["screen plus app", "value buyers", "basic smart monitoring"],
     worstFor: ["premium video quality", "offline-only users", "advanced analytics"],
     topFeature: "Hybrid screen and app",
@@ -156,6 +180,9 @@ export const monitors: BabyMonitor[] = [
     batteryLife: "8-12hrs",
     range: "medium",
     budgetTier: "budget",
+    isPortable: true,             // battery-powered parent unit
+    hasMultiRoom: false,
+    hasSmartFeatures: false,
     bestFor: ["budget buyers", "simple video", "easy setup"],
     worstFor: ["smart features", "remote viewing", "high-end image quality"],
     topFeature: "Affordable reliable video",
@@ -174,6 +201,9 @@ export const monitors: BabyMonitor[] = [
     batteryLife: "12hrs+",
     range: "long",
     budgetTier: "budget",
+    isPortable: true,             // long battery, fully wireless
+    hasMultiRoom: false,
+    hasSmartFeatures: false,
     bestFor: ["audio-only use", "minimalist parents", "long battery life"],
     worstFor: ["video needs", "smart alerts", "visual monitoring"],
     topFeature: "Simple audio monitoring",
@@ -192,6 +222,9 @@ export const monitors: BabyMonitor[] = [
     batteryLife: "no-battery",
     range: "long",
     budgetTier: "budget",
+    isPortable: false,            // plugged in only
+    hasMultiRoom: false,
+    hasSmartFeatures: false,      // app control but no baby-specific analytics
     bestFor: ["camera flexibility", "app viewing", "budget smart use"],
     worstFor: ["battery power", "offline-only use", "baby-specific features"],
     topFeature: "Great value smart camera",
@@ -210,6 +243,9 @@ export const monitors: BabyMonitor[] = [
     batteryLife: "8-12hrs",
     range: "long",
     budgetTier: "premium",
+    isPortable: true,             // has battery-backed parent unit
+    hasMultiRoom: false,
+    hasSmartFeatures: true,       // app analytics, temperature sensor, smart alerts
     bestFor: ["premium nursery setup", "app control", "camera and sound"],
     worstFor: ["tight budgets", "offline use", "portable monitoring"],
     topFeature: "Premium connected experience",

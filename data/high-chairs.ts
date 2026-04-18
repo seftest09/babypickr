@@ -12,6 +12,9 @@ export const highChairs: HighChair[] = [
     easyToClean: true,
     apartmentFriendly: true,
     budgetTier: "premium",
+    trayAdjustable: true,         // seat depth and footrest both adjust — tall-parent friendly
+    growsWithChild: true,         // designed to grow from infant to adult
+    isCompactFold: false,         // doesn't fold
     bestFor: ["long-term use", "aesthetics", "adjustability"],
     worstFor: ["tight budgets", "portability"],
     topFeature: "Grows with child for years",
@@ -30,6 +33,9 @@ export const highChairs: HighChair[] = [
     easyToClean: true,
     apartmentFriendly: false,
     budgetTier: "mid",
+    trayAdjustable: true,         // multiple tray positions
+    growsWithChild: true,         // 6-in-1: infant seat through booster
+    isCompactFold: false,
     bestFor: ["multi-child families", "long-term use"],
     worstFor: ["small spaces", "minimalists"],
     topFeature: "Transforms into two seats",
@@ -48,6 +54,9 @@ export const highChairs: HighChair[] = [
     easyToClean: true,
     apartmentFriendly: true,
     budgetTier: "mid",
+    trayAdjustable: true,         // sliding tray with multiple positions
+    growsWithChild: false,        // standard use range, not a lifetime chair
+    isCompactFold: true,          // folds flat enough to slide under table
     bestFor: ["small homes", "adjustability"],
     worstFor: ["travel", "ultra compact needs"],
     topFeature: "Slides under most tables",
@@ -66,6 +75,9 @@ export const highChairs: HighChair[] = [
     easyToClean: true,
     apartmentFriendly: false,
     budgetTier: "budget",
+    trayAdjustable: false,        // fixed tray position
+    growsWithChild: false,
+    isCompactFold: false,
     bestFor: ["budget buyers", "quick setup"],
     worstFor: ["small apartments", "premium features"],
     topFeature: "Converts to booster seat",
@@ -84,6 +96,9 @@ export const highChairs: HighChair[] = [
     easyToClean: true,
     apartmentFriendly: true,
     budgetTier: "mid",
+    trayAdjustable: false,        // fixed tray — clips to table edge
+    growsWithChild: false,
+    isCompactFold: true,          // folds into a carry bag, extremely compact
     bestFor: ["travel", "small spaces"],
     worstFor: ["thick tables", "heavy babies"],
     topFeature: "Clips onto most tables",
@@ -102,6 +117,9 @@ export const highChairs: HighChair[] = [
     easyToClean: true,
     apartmentFriendly: true,
     budgetTier: "mid",
+    trayAdjustable: false,        // sits on existing chair, no tray adjust
+    growsWithChild: false,
+    isCompactFold: true,          // booster: easy to pack and move
     bestFor: ["small homes", "portability"],
     worstFor: ["newborns", "recline needs"],
     topFeature: "Ergonomic hip support design",
@@ -120,6 +138,9 @@ export const highChairs: HighChair[] = [
     easyToClean: true,
     apartmentFriendly: false,
     budgetTier: "premium",
+    trayAdjustable: true,         // multi-position height and depth adjustment
+    growsWithChild: true,         // adjusts from newborn to toddler
+    isCompactFold: false,         // folds but not compactly
     bestFor: ["newborn use", "comfort"],
     worstFor: ["small spaces", "budget buyers"],
     topFeature: "Full recline for newborns",
@@ -138,6 +159,9 @@ export const highChairs: HighChair[] = [
     easyToClean: true,
     apartmentFriendly: true,
     budgetTier: "premium",
+    trayAdjustable: true,         // adjustable tray height + footrest
+    growsWithChild: true,         // designed to adjust from 6mo through toddler years
+    isCompactFold: false,
     bestFor: ["modern homes", "easy cleaning"],
     worstFor: ["travel", "tight budgets"],
     topFeature: "Minimalist wipe-clean surfaces",
@@ -156,6 +180,9 @@ export const highChairs: HighChair[] = [
     easyToClean: true,
     apartmentFriendly: true,
     budgetTier: "budget",
+    trayAdjustable: false,        // fixed tray
+    growsWithChild: false,
+    isCompactFold: false,
     bestFor: ["ultra budget", "easy cleaning"],
     worstFor: ["features", "comfort padding"],
     topFeature: "Cheapest easy-clean high chair",
@@ -174,6 +201,9 @@ export const highChairs: HighChair[] = [
     easyToClean: true,
     apartmentFriendly: false,
     budgetTier: "premium",
+    trayAdjustable: true,         // magnetic tray with multiple positions
+    growsWithChild: false,        // premium but standard age range
+    isCompactFold: false,
     bestFor: ["tech lovers", "easy cleaning"],
     worstFor: ["small spaces", "budget buyers"],
     topFeature: "Magnetic tray and smart design",

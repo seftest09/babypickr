@@ -1,4 +1,6 @@
 import type { FilterState, Stroller } from "@/types/product";
+import type { JourneyTypeId, SituationId } from "@/lib/journeyStorage";
+import { strollerJourneyBoost } from "@/lib/journeyStorage";
 import { compareRatedByTrustDesc } from "@/lib/trustScore";
 
 function strollerBudgetTier(price: number): "budget" | "mid" | "premium" {
@@ -7,8 +9,22 @@ function strollerBudgetTier(price: number): "budget" | "mid" | "premium" {
   return "premium";
 }
 
-export function filterStrollers(strollers: readonly Stroller[], filters: FilterState): Stroller[] {
+export interface StrollerFilterOptions {
+  journeyType?: JourneyTypeId;
+  situations?: SituationId[];
+}
+
+export function filterStrollers(
+  strollers: readonly Stroller[],
+  filters: FilterState,
+  journey?: StrollerFilterOptions,
+): Stroller[] {
+  const journeyType = journey?.journeyType;
+  const situations = journey?.situations ?? [];
+
   let filtered = [...strollers];
+
+  // ── HARD FILTERS ─────────────────────────────────────────────────────────
 
   if (filters.budget !== "all") {
     filtered = filtered.filter((s) => strollerBudgetTier(s.price) === filters.budget);
@@ -30,13 +46,25 @@ export function filterStrollers(strollers: readonly Stroller[], filters: FilterS
     filtered = filtered.filter((s) => s.carSeatCompatible);
   }
 
-  if (filters.priority === "portability") {
-    filtered.sort((a, b) => a.weightLbs - b.weightLbs);
-  } else if (filters.priority === "value") {
-    filtered.sort((a, b) => a.price - b.price);
-  } else {
-    filtered.sort(compareRatedByTrustDesc);
-  }
+  // ── SORTING ───────────────────────────────────────────────────────────────
+
+  filtered.sort((a, b) => {
+    if (filters.priority === "value") {
+      const priceDiff = a.price - b.price;
+      if (priceDiff !== 0) return priceDiff;
+    } else if (filters.priority === "portability") {
+      const weightDiff = a.weightLbs - b.weightLbs;
+      if (weightDiff !== 0) return weightDiff;
+    }
+
+    if (journeyType) {
+      const boostA = strollerJourneyBoost(a, journeyType, situations);
+      const boostB = strollerJourneyBoost(b, journeyType, situations);
+      if (boostB !== boostA) return boostB - boostA;
+    }
+
+    return compareRatedByTrustDesc(a, b);
+  });
 
   return filtered;
 }

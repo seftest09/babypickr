@@ -11,6 +11,9 @@ export const cribs: Crib[] = [
     assemblyDifficulty: "moderate",
     apartmentFriendly: true,
     budgetTier: "mid",
+    adjustableMattressHeight: true,   // 3-position mattress height adjustment
+    isPortable: false,
+    isGiftable: true,                 // popular, Greenguard Gold cert, well-known brand
     bestFor: ["modern design", "small nurseries", "eco-conscious parents"],
     worstFor: ["tight budgets", "traditional style lovers"],
     topFeature: "Greenguard Gold certified build",
@@ -28,6 +31,9 @@ export const cribs: Crib[] = [
     assemblyDifficulty: "easy",
     apartmentFriendly: false,
     budgetTier: "budget",
+    adjustableMattressHeight: true,   // 3-position height adjustment
+    isPortable: false,
+    isGiftable: true,                 // easy assembly + well-known brand = great gift
     bestFor: ["budget buyers", "long-term use", "first-time parents"],
     worstFor: ["tight spaces", "premium aesthetics"],
     topFeature: "4-in-1 lifetime convertibility",
@@ -45,6 +51,9 @@ export const cribs: Crib[] = [
     assemblyDifficulty: "moderate",
     apartmentFriendly: true,
     budgetTier: "mid",
+    adjustableMattressHeight: true,   // standard 3-position adjustment
+    isPortable: false,
+    isGiftable: true,                 // visually striking, popular gift choice
     bestFor: ["modern look", "small spaces", "stylish parents"],
     worstFor: ["rough use", "classic decor"],
     topFeature: "Clear acrylic side panels",
@@ -62,6 +71,9 @@ export const cribs: Crib[] = [
     assemblyDifficulty: "easy",
     apartmentFriendly: true,
     budgetTier: "budget",
+    adjustableMattressHeight: true,   // 3-position height
+    isPortable: false,
+    isGiftable: false,                // very budget, convertible kit sold separately
     bestFor: ["small apartments", "low budget", "minimalists"],
     worstFor: ["long-term use", "premium build seekers"],
     topFeature: "Compact minimalist footprint",
@@ -79,6 +91,9 @@ export const cribs: Crib[] = [
     assemblyDifficulty: "moderate",
     apartmentFriendly: false,
     budgetTier: "budget",
+    adjustableMattressHeight: true,   // 3-position adjustment
+    isPortable: false,
+    isGiftable: false,                // large and value-tier; not ideal as gift
     bestFor: ["value buyers", "classic style", "long-term use"],
     worstFor: ["tiny nurseries", "premium finish lovers"],
     topFeature: "Affordable full conversion kit",
@@ -96,6 +111,9 @@ export const cribs: Crib[] = [
     assemblyDifficulty: "easy",
     apartmentFriendly: true,
     budgetTier: "mid",
+    adjustableMattressHeight: true,   // 2-position height on mini frame
+    isPortable: true,                 // folds flat + wheels — the most portable crib here
+    isGiftable: true,                 // beautiful, folds, Greenguard certified
     bestFor: ["small apartments", "portability", "urban living"],
     worstFor: ["long-term use", "tall toddlers"],
     topFeature: "Folding mini crib with wheels",
@@ -113,6 +131,9 @@ export const cribs: Crib[] = [
     assemblyDifficulty: "moderate",
     apartmentFriendly: true,
     budgetTier: "budget",
+    adjustableMattressHeight: false,  // fixed height — no adjustment
+    isPortable: false,
+    isGiftable: false,
     bestFor: ["budget families", "modern style", "small rooms"],
     worstFor: ["heavy use", "luxury feel"],
     topFeature: "LED lighting built into base",
@@ -130,6 +151,9 @@ export const cribs: Crib[] = [
     assemblyDifficulty: "moderate",
     apartmentFriendly: true,
     budgetTier: "premium",
+    adjustableMattressHeight: true,   // 3-position adjustment
+    isPortable: false,
+    isGiftable: true,                 // premium, beautiful color options, popular gift
     bestFor: ["design lovers", "compact nurseries", "eco-friendly"],
     worstFor: ["tight budgets", "traditional decor"],
     topFeature: "Playful modern color accents",
@@ -147,6 +171,9 @@ export const cribs: Crib[] = [
     assemblyDifficulty: "moderate",
     apartmentFriendly: true,
     budgetTier: "premium",
+    adjustableMattressHeight: true,   // adjusts as baby grows with the crib
+    isPortable: false,
+    isGiftable: true,                 // design-forward, viral on social media, premium
     bestFor: ["small homes", "design-forward parents", "longevity"],
     worstFor: ["budget buyers", "simple setups"],
     topFeature: "Grows from mini to full crib",
@@ -164,6 +191,9 @@ export const cribs: Crib[] = [
     assemblyDifficulty: "easy",
     apartmentFriendly: true,
     budgetTier: "budget",
+    adjustableMattressHeight: true,   // 2-position height adjustment
+    isPortable: false,
+    isGiftable: false,                // too minimal/budget for gifting
     bestFor: ["ultra budget", "minimalists", "small rooms"],
     worstFor: ["convertibility", "premium finish"],
     topFeature: "Cheapest solid wood crib",

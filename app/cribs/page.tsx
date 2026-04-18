@@ -15,7 +15,15 @@ import { cribs as allCribs } from "@/data/cribs";
 import { getTag } from "@/config/affiliate";
 import { buildAmazonLink } from "@/lib/affiliate";
 import { filterCribs } from "@/lib/filters/cribs";
-import { applyJourneySituationsToCribFilters, readJourneyFromStorage } from "@/lib/journeyStorage";
+import {
+  applyJourneySituationsToCribFilters,
+  clearJourneyStorage,
+  journeyExplanationsForCategory,
+  journeyTypeLabel,
+  readJourneyFromStorage,
+  situationLabels,
+  type JourneyStored,
+} from "@/lib/journeyStorage";
 
 const BUDGET_OPTIONS = [
   { label: "All", value: "all" },
@@ -81,6 +89,7 @@ function assemblyLabel(a: Crib["assemblyDifficulty"]): string {
 
 export default function CribsPage() {
   const router = useRouter();
+  const [journey, setJourney] = useState<JourneyStored | null>(null);
   const [filters, setFilters] = useState<CribFilterState>({
     budget: "all",
     convertible: "all",
@@ -95,10 +104,25 @@ export default function CribsPage() {
       router.replace("/?returnTo=/cribs");
       return;
     }
-    setFilters((prev) => applyJourneySituationsToCribFilters(j.situations, prev));
+    setJourney(j);
+    setFilters((prev) => applyJourneySituationsToCribFilters(j.situations, j.journeyType, prev));
   }, [router]);
 
-  const results = useMemo(() => filterCribs(allCribs, filters), [filters]);
+  const startJourneyOver = () => {
+    clearJourneyStorage();
+    router.replace("/");
+  };
+
+  const results = useMemo(
+    () =>
+      journey
+        ? filterCribs(allCribs, filters, {
+            journeyType: journey.journeyType,
+            situations: journey.situations,
+          })
+        : filterCribs(allCribs, filters),
+    [filters, journey],
+  );
 
   const { summaries, loadingSummaries, requestSummary } = useProductAiSummary(filters, "crib");
 
@@ -156,6 +180,43 @@ export default function CribsPage() {
 
   const resultsHeader = (
     <div className="flex flex-col gap-4 border-b border-gray-200 pb-6">
+      {journey && (
+        <div
+          className="rounded-2xl border border-[#388E3C]/15 px-5 py-4 shadow-sm"
+          style={{ background: "linear-gradient(135deg, #C8E6C9, #E3F2FD)" }}
+        >
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+            <div className="min-w-0">
+              <p className="font-dm-serif-display text-lg font-semibold text-[#1B4332]">
+                ✦ Your personalized matches
+              </p>
+              <p className="mt-1 text-sm text-[#1A1A2E]/80">
+                Based on:{" "}
+                <span className="font-medium">
+                  {situationLabels(journey.situations).join(" · ")}
+                </span>
+              </p>
+              <p className="mt-1 text-sm text-[#1A1A2E]/70">
+                Preparing for: <span className="font-medium">{journeyTypeLabel(journey.journeyType)}</span>
+              </p>
+              <div className="mt-2 space-y-1 text-sm text-[#1A1A2E]/75">
+                {journeyExplanationsForCategory("cribs", journey)
+                  .slice(0, 3)
+                  .map((line) => (
+                    <p key={line}>{line}</p>
+                  ))}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={startJourneyOver}
+              className="shrink-0 text-sm font-medium text-[#388E3C] underline-offset-2 hover:underline"
+            >
+              ✕ Start over
+            </button>
+          </div>
+        </div>
+      )}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
         <div className="min-w-0 shrink-0">
           <p className="text-xs font-semibold uppercase tracking-wider text-[#6B7280]">Results</p>

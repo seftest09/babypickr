@@ -17,7 +17,12 @@ import { buildAmazonLink } from "@/lib/affiliate";
 import { filterHighChairs } from "@/lib/filters/highChairs";
 import {
   applyJourneySituationsToHighChairFilters,
+  clearJourneyStorage,
+  journeyExplanationsForCategory,
+  journeyTypeLabel,
   readJourneyFromStorage,
+  situationLabels,
+  type JourneyStored,
 } from "@/lib/journeyStorage";
 
 const BUDGET_OPTIONS = [
@@ -80,6 +85,7 @@ function chairTypeLabel(t: ChairType): string {
 
 export default function HighChairsPage() {
   const router = useRouter();
+  const [journey, setJourney] = useState<JourneyStored | null>(null);
   const [filters, setFilters] = useState<HighChairFilterState>({
     budget: "all",
     chairType: "all",
@@ -94,10 +100,25 @@ export default function HighChairsPage() {
       router.replace("/?returnTo=/high-chairs");
       return;
     }
-    setFilters((prev) => applyJourneySituationsToHighChairFilters(j.situations, prev));
+    setJourney(j);
+    setFilters((prev) => applyJourneySituationsToHighChairFilters(j.situations, j.journeyType, prev));
   }, [router]);
 
-  const results = useMemo(() => filterHighChairs(allHighChairs, filters), [filters]);
+  const startJourneyOver = () => {
+    clearJourneyStorage();
+    router.replace("/");
+  };
+
+  const results = useMemo(
+    () =>
+      journey
+        ? filterHighChairs(allHighChairs, filters, {
+            journeyType: journey.journeyType,
+            situations: journey.situations,
+          })
+        : filterHighChairs(allHighChairs, filters),
+    [filters, journey],
+  );
 
   const { summaries, loadingSummaries, requestSummary } = useProductAiSummary(filters, "high chair");
 
@@ -155,6 +176,43 @@ export default function HighChairsPage() {
 
   const resultsHeader = (
     <div className="flex flex-col gap-4 border-b border-gray-200 pb-6">
+      {journey && (
+        <div
+          className="rounded-2xl border border-[#388E3C]/15 px-5 py-4 shadow-sm"
+          style={{ background: "linear-gradient(135deg, #C8E6C9, #E3F2FD)" }}
+        >
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+            <div className="min-w-0">
+              <p className="font-dm-serif-display text-lg font-semibold text-[#1B4332]">
+                ✦ Your personalized matches
+              </p>
+              <p className="mt-1 text-sm text-[#1A1A2E]/80">
+                Based on:{" "}
+                <span className="font-medium">
+                  {situationLabels(journey.situations).join(" · ")}
+                </span>
+              </p>
+              <p className="mt-1 text-sm text-[#1A1A2E]/70">
+                Preparing for: <span className="font-medium">{journeyTypeLabel(journey.journeyType)}</span>
+              </p>
+              <div className="mt-2 space-y-1 text-sm text-[#1A1A2E]/75">
+                {journeyExplanationsForCategory("high-chairs", journey)
+                  .slice(0, 3)
+                  .map((line) => (
+                    <p key={line}>{line}</p>
+                  ))}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={startJourneyOver}
+              className="shrink-0 text-sm font-medium text-[#388E3C] underline-offset-2 hover:underline"
+            >
+              ✕ Start over
+            </button>
+          </div>
+        </div>
+      )}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
         <div className="min-w-0 shrink-0">
           <p className="text-xs font-semibold uppercase tracking-wider text-[#6B7280]">Results</p>

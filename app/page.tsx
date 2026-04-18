@@ -14,6 +14,8 @@ import {
   applyJourneySituationsToStrollerFilters,
   clearJourneyStorage,
   readJourneyFromStorage,
+  journeyExplanationsForCategory,
+  journeyTypeLabel,
   situationLabels,
   writeJourneyToStorage,
   type JourneyStored,
@@ -88,6 +90,7 @@ export default function Home() {
   const [journeyComplete, setJourneyComplete] = useState(false);
   const [bannerMode, setBannerMode] = useState<BannerMode>("none");
   const [storedSituations, setStoredSituations] = useState<SituationId[]>([]);
+  const [storedJourneyType, setStoredJourneyType] = useState<JourneyStored["journeyType"] | null>(null);
 
   const [filters, setFilters] = useState<FilterState>(INITIAL_FILTERS);
   const [category, setCategory] = useState<CategoryId>("strollers");
@@ -98,14 +101,25 @@ export default function Home() {
     const stored = readJourneyFromStorage();
     if (stored) {
       setStoredSituations(stored.situations);
-      setFilters(applyJourneySituationsToStrollerFilters(stored.situations, INITIAL_FILTERS));
+      setStoredJourneyType(stored.journeyType);
+      setFilters(applyJourneySituationsToStrollerFilters(stored.situations, stored.journeyType, INITIAL_FILTERS));
       setJourneyComplete(true);
       setBannerMode("storage");
     }
     setHydrated(true);
   }, []);
 
-  const results = useMemo(() => filterStrollers(allStrollers, filters), [filters]);
+  const results = useMemo(
+    () =>
+      filterStrollers(
+        allStrollers,
+        filters,
+        storedJourneyType
+          ? { journeyType: storedJourneyType, situations: storedSituations }
+          : undefined,
+      ),
+    [filters, storedJourneyType, storedSituations],
+  );
 
   const hasActiveFilter =
     filters.budget !== "all" ||
@@ -126,7 +140,8 @@ export default function Home() {
   const handleJourneyComplete = useCallback((data: JourneyStored) => {
     writeJourneyToStorage(data);
     setStoredSituations(data.situations);
-    setFilters(applyJourneySituationsToStrollerFilters(data.situations, INITIAL_FILTERS));
+    setStoredJourneyType(data.journeyType);
+    setFilters(applyJourneySituationsToStrollerFilters(data.situations, data.journeyType, INITIAL_FILTERS));
     setJourneyComplete(true);
     setBannerMode("fresh");
     if (typeof window !== "undefined") {
@@ -143,6 +158,7 @@ export default function Home() {
     setJourneyComplete(false);
     setBannerMode("none");
     setStoredSituations([]);
+    setStoredJourneyType(null);
     setFilters({ ...INITIAL_FILTERS });
   }, []);
 
@@ -190,6 +206,14 @@ export default function Home() {
       ? situationLabels(storedSituations).join(" · ")
       : "Your selections";
 
+  const journeyExplanationLines =
+    storedJourneyType && storedSituations
+      ? journeyExplanationsForCategory("strollers", {
+          journeyType: storedJourneyType,
+          situations: storedSituations,
+        }).slice(0, 3)
+      : [];
+
   const personalizedBanner =
     bannerMode === "fresh" ? (
       <div
@@ -204,6 +228,18 @@ export default function Home() {
             <p className="mt-1 text-sm text-[#1A1A2E]/80">
               Based on: <span className="font-medium">{basedOnText}</span>
             </p>
+            {storedJourneyType && (
+              <p className="mt-1 text-sm text-[#1A1A2E]/70">
+                Preparing for: <span className="font-medium">{journeyTypeLabel(storedJourneyType)}</span>
+              </p>
+            )}
+            {journeyExplanationLines.length > 0 && (
+              <div className="mt-2 space-y-1 text-sm text-[#1A1A2E]/75">
+                {journeyExplanationLines.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+              </div>
+            )}
           </div>
           <button
             type="button"
@@ -216,10 +252,24 @@ export default function Home() {
       </div>
     ) : bannerMode === "storage" ? (
       <div className="mb-6 flex flex-col gap-2 rounded-xl border border-[#388E3C]/20 bg-white/80 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-[#1A1A2E]">
-          <span className="font-dm-serif-display font-semibold text-[#2D6A4F]">✦</span> Based on your
-          previous answers
-        </p>
+        <div className="text-sm text-[#1A1A2E]">
+          <p>
+            <span className="font-dm-serif-display font-semibold text-[#2D6A4F]">✦</span> Based on your
+            previous answers
+          </p>
+          {storedJourneyType && (
+            <p className="mt-1 text-[#1A1A2E]/70">
+              Preparing for: <span className="font-medium">{journeyTypeLabel(storedJourneyType)}</span>
+            </p>
+          )}
+          {journeyExplanationLines.length > 0 && (
+            <div className="mt-2 space-y-1 text-[#1A1A2E]/75">
+              {journeyExplanationLines.map((line) => (
+                <p key={line}>{line}</p>
+              ))}
+            </div>
+          )}
+        </div>
         <button
           type="button"
           onClick={startJourneyOver}

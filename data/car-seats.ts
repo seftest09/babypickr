@@ -14,6 +14,9 @@ export const carSeats: CarSeat[] = [
     tallParentFriendly: true,
     latchCompatible: true,
     budgetTier: "mid",
+    isFaaApproved: true,          // rigid LATCH = stable on aircraft seat
+    isExtendedRear: false,        // infant-only seat, not extended rear
+    headrestAdjustable: true,     // adjustable head support
     bestFor: ["narrow installs", "load leg stability", "premium fabrics"],
     worstFor: ["budget shoppers", "ultra-light carrier carries", "wide middle seats"],
     topFeature: "Rigid LATCH and adjustable load leg for a tight base every time",
@@ -34,6 +37,9 @@ export const carSeats: CarSeat[] = [
     tallParentFriendly: false,
     latchCompatible: true,
     budgetTier: "budget",
+    isFaaApproved: true,          // FAA-approved for aircraft use
+    isExtendedRear: false,
+    headrestAdjustable: false,    // basic head support, not multi-position
     bestFor: ["newborns", "quick installs", "travel systems"],
     worstFor: ["long rear-facing past toddler", "wide front seats", "heavy to carry long distances"],
     topFeature: "Spring-loaded LATCH tightener for fast, secure install",
@@ -54,6 +60,9 @@ export const carSeats: CarSeat[] = [
     tallParentFriendly: false,
     latchCompatible: true,
     budgetTier: "mid",
+    isFaaApproved: true,          // FAA-approved, lightest in class
+    isExtendedRear: false,
+    headrestAdjustable: false,
     bestFor: ["lightweight bucket", "machine-washable fabrics", "tight back seats"],
     worstFor: ["convertible longevity in one box", "minimalist bases", "spinning seats"],
     topFeature: "ClimaFlow ventilation and one-handed release from the base",
@@ -74,6 +83,9 @@ export const carSeats: CarSeat[] = [
     tallParentFriendly: false,
     latchCompatible: true,
     budgetTier: "budget",
+    isFaaApproved: true,          // FAA-approved, lightest infant seat
+    isExtendedRear: false,
+    headrestAdjustable: false,
     bestFor: ["budget buyers", "lightweight carrier", "small cars"],
     worstFor: ["premium fabrics", "extra head support", "narrow seatbelt routing"],
     topFeature: "SnugFit install with fuss-free harness holders",
@@ -94,6 +106,9 @@ export const carSeats: CarSeat[] = [
     tallParentFriendly: true,
     latchCompatible: true,
     budgetTier: "mid",
+    isFaaApproved: true,          // FAA-approved, popular travel pick
+    isExtendedRear: false,
+    headrestAdjustable: true,     // adjustable canopy and head area
     bestFor: ["dream drape naps", "compact footprint", "luxury travel systems"],
     worstFor: ["budget installs", "heavier carrier over time", "wide load-leg space needs"],
     topFeature: "Sky drape and bubble-free recline guide on the base",
@@ -114,6 +129,9 @@ export const carSeats: CarSeat[] = [
     tallParentFriendly: false,
     latchCompatible: true,
     budgetTier: "mid",
+    isFaaApproved: false,         // not specifically marketed as FAA-approved
+    isExtendedRear: false,
+    headrestAdjustable: false,
     bestFor: ["ClickTight base installs", "compact depth", "newborn inserts"],
     worstFor: ["ultra-wide seats", "minimal branding", "spinning convertibles"],
     topFeature: "Rebound reduce stability bar on the stay-in-car base",
@@ -134,6 +152,9 @@ export const carSeats: CarSeat[] = [
     tallParentFriendly: true,
     latchCompatible: true,
     budgetTier: "mid",
+    isFaaApproved: false,         // convertible seats are generally not FAA-approved
+    isExtendedRear: true,         // core purpose: extended rear-facing with leg panel
+    headrestAdjustable: true,     // 6-position headrest
     bestFor: ["extended rear-facing", "value", "growing toddlers"],
     worstFor: ["compact back seats", "frequent moves between cars", "minimalist design"],
     topFeature: "4-position extension panel for more leg room rear-facing",
@@ -154,6 +175,9 @@ export const carSeats: CarSeat[] = [
     tallParentFriendly: true,
     latchCompatible: true,
     budgetTier: "premium",
+    isFaaApproved: false,
+    isExtendedRear: true,         // known for extended rear-facing comfort
+    headrestAdjustable: true,     // 9-position headrest
     bestFor: ["luxury feel", "all-belt install option", "breathable fabrics"],
     worstFor: ["budget buyers", "compact cars", "weight when moving often"],
     topFeature: "True tension doors for simple seatbelt routing",
@@ -174,6 +198,9 @@ export const carSeats: CarSeat[] = [
     tallParentFriendly: true,
     latchCompatible: true,
     budgetTier: "premium",
+    isFaaApproved: false,
+    isExtendedRear: true,         // steel anti-rebound extended rear-facing
+    headrestAdjustable: true,     // 9-position adjustable headrest
     bestFor: ["narrow footprint", "steel anti-rebound", "long rear-facing"],
     worstFor: ["apartment stair carries", "small trunks", "quick swaps"],
     topFeature: "Rigid LATCH forward-facing for rock-solid install",
@@ -194,6 +221,9 @@ export const carSeats: CarSeat[] = [
     tallParentFriendly: true,
     latchCompatible: true,
     budgetTier: "mid",
+    isFaaApproved: false,
+    isExtendedRear: true,         // 9-position recline for extended rear-facing
+    headrestAdjustable: true,     // DuoGuard with tall harness slots
     bestFor: ["easy SuperCinch LATCH", "tall harness slots", "machine-washable pads"],
     worstFor: ["compact rear-facing room", "lightweight moves", "minimalist shells"],
     topFeature: "Nine-position ReclineSure leveling and DuoGuard protection",
@@ -214,6 +244,9 @@ export const carSeats: CarSeat[] = [
     tallParentFriendly: true,
     latchCompatible: true,
     budgetTier: "mid",
+    isFaaApproved: false,
+    isExtendedRear: true,         // Britax's signature extended rear-facing safety
+    headrestAdjustable: true,     // 14-position headrest — most adjustable in class
     bestFor: ["easy seatbelt installs", "strong side impact layers", "tall kids"],
     worstFor: ["small vehicles", "carrying between cars", "tight 3-across"],
     topFeature: "ClickTight installation opens like a car door",
@@ -234,6 +267,9 @@ export const carSeats: CarSeat[] = [
     tallParentFriendly: true,
     latchCompatible: true,
     budgetTier: "mid",
+    isFaaApproved: true,          // FAA-approved, popular travel system choice
+    isExtendedRear: false,
+    headrestAdjustable: true,     // adjustable canopy + headrest area
     bestFor: ["Vista/Cruz travel systems", "anti-rebound bar", "tall shell room"],
     worstFor: ["budget shoppers", "ultra-light needs", "non-UPPAbaby strollers"],
     topFeature: "SmartSecure visual tightness indicator",
@@ -254,6 +290,9 @@ export const carSeats: CarSeat[] = [
     tallParentFriendly: true,
     latchCompatible: true,
     budgetTier: "mid",
+    isFaaApproved: false,         // all-in-ones are too heavy/large for aircraft
+    isExtendedRear: true,         // "Extend" in name = extended rear-facing
+    headrestAdjustable: true,     // 10-position headrest
     bestFor: ["360 spin for easy buckling", "one seat from birth to booster", "bad backs"],
     worstFor: ["very compact cars", "budget installs without reading manual", "lightweight needs"],
     topFeature: "Rotates with one hand for effortless ins and outs",
@@ -274,6 +313,9 @@ export const carSeats: CarSeat[] = [
     tallParentFriendly: true,
     latchCompatible: true,
     budgetTier: "premium",
+    isFaaApproved: false,
+    isExtendedRear: true,         // convertible with rear-facing to 40lbs
+    headrestAdjustable: true,     // 12-position adjustable headrest
     bestFor: ["180° rotation for door-side loading", "tall shell", "premium padding"],
     worstFor: ["compact second rows", "budget buyers", "frequent airline travel"],
     topFeature: "One-hand rotation from rear- to forward-facing without reinstall stress",
